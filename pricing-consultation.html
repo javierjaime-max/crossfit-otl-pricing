@@ -796,18 +796,14 @@ body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
 /* ============================
    FRAME 19 — YOUTH PROGRAM
 ============================ */
-.youth-hero{text-align:center;max-width:900px;margin:0 auto 40px}
-.youth-subline{
-  font-size:15px;color:rgba(255,255,255,0.65);
-  max-width:640px;margin:0 auto;line-height:1.75;
-  font-style:italic;
-}
+.youth-hero{text-align:center;max-width:900px;margin:0 auto 12px}
+.youth-subline{display:none}
 .youth-pillar{
   background:rgba(245,166,35,0.08);
   border:1px solid rgba(245,166,35,0.25);
-  border-radius:12px;padding:18px 24px;
-  max-width:760px;margin:28px auto 0;
-  display:flex;gap:16px;align-items:center;
+  border-radius:8px;padding:10px 16px;
+  max-width:760px;margin:10px auto 0;
+  display:flex;gap:12px;align-items:center;
 }
 .youth-pillar-icon{
   font-family:'Bebas Neue',sans-serif;
@@ -817,13 +813,13 @@ body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
 .youth-pillar-txt{font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;text-align:left}
 .youth-pillar-txt strong{color:var(--gold)}
 .youth-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
-  max-width:1100px;margin:48px auto 0;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+  max-width:1100px;margin:12px auto 0;
 }
 .youth-card{
   background:rgba(255,255,255,0.04);
   border:1px solid rgba(255,255,255,0.1);
-  border-radius:14px;padding:28px 24px;
+  border-radius:12px;padding:18px 20px;
   position:relative;
   transition:all 0.3s;
 }
@@ -868,22 +864,23 @@ body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
    FRAME 20 — À LA CARTE
 ============================ */
 .ala-wrap{max-width:1100px;margin:0 auto}
-.ala-header{text-align:center;margin-bottom:20px}
-.ala-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.ala-header{text-align:center;margin-bottom:14px}
+.ala-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .ala-card{
   background:var(--white);
   border:1px solid var(--grey-border);
-  border-radius:10px;padding:16px;
+  border-radius:10px;padding:14px;
 }
 .ala-card-title{
   font-family:'Bebas Neue',sans-serif;
-  font-size:20px;letter-spacing:0.04em;
-  color:var(--navy-dark);margin-bottom:10px;
-  padding-bottom:8px;border-bottom:1px solid var(--grey-border);
+  font-size:17px;letter-spacing:0.05em;
+  color:var(--navy-dark);margin-bottom:8px;
+  padding-bottom:6px;border-bottom:2px solid var(--grey-border);
 }
-.ala-row{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;font-size:15px}
-.ala-row-label{color:#222;font-weight:500}
-.ala-row-price{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--navy-dark)}
+.ala-row{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:14px}
+.ala-row:last-child{border-bottom:none}
+.ala-row-label{color:#333;font-weight:500}
+.ala-row-price{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--navy-dark)}
 
 /* ============================
    FRAME 20 — FINAL CTA
@@ -1370,10 +1367,8 @@ body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
   <div class="frame-inner">
     <div class="vs-wrap">
       <div class="vs-header">
-        <div class="label white">Our Flagship Program</div>
-        <h2 class="svc-product" style="color:var(--white);margin-bottom:8px;font-size:clamp(38px,5vw,64px)">THE 12-WEEK LIFESTYLE RESET</h2>
-        <div class="svc-tagline" style="margin-bottom:14px;font-size:clamp(18px,2vw,24px)">Pillars of Total Transformation.</div>
-        <p class="small" style="color:rgba(255,255,255,0.6);max-width:620px;margin:0 auto">The kitchen sink by design. Every reason a person normally quits — removed.</p>
+        <h2 class="svc-product" style="color:var(--white);margin-bottom:6px;font-size:clamp(28px,3.8vw,52px)">THE 12-WEEK LIFESTYLE RESET</h2>
+        <div class="svc-tagline" style="margin-bottom:0;font-size:clamp(14px,1.5vw,18px);opacity:0.7">Pillars of Total Transformation.</div>
       </div>
       <div class="vs-stack">
         <div class="vs-row">
@@ -1499,10 +1494,8 @@ body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
 <section class="frame bg-navy" data-chapter="program" data-title="Youth Program">
   <div class="frame-inner">
     <div class="youth-hero">
-      <div class="label gold">For Your Family</div>
-      <h2 class="svc-product" style="color:var(--white);margin-bottom:10px">THE YOUTH PROGRAM</h2>
-      <div class="svc-tagline" style="color:var(--gold);margin-bottom:20px">Built for Ages 5 to 18.</div>
-      <p class="youth-subline">CrossFit OTL is a GPP gym for the whole arc of a human life. The youth program isn't a side offering — it's part of the mission.</p>
+      <h2 class="svc-product" style="color:var(--white);margin-bottom:4px;font-size:clamp(28px,3.8vw,52px)">THE YOUTH PROGRAM</h2>
+      <div class="svc-tagline" style="color:var(--gold);margin-bottom:0;font-size:clamp(14px,1.5vw,18px)">Built for Ages 5 to 18 · For Your Family</div>
       <div class="youth-pillar">
         <div class="youth-pillar-icon">◆</div>
         <div class="youth-pillar-txt"><strong>Same room. Same time.</strong> Youth and adult classes run concurrently by design. Children watch their parents on the line. Parents watch their children under the same standard. The schedule is architecture, not convenience.</div>
@@ -1602,8 +1595,8 @@ body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
   <div class="frame-inner">
     <div class="ala-wrap">
       <div class="ala-header">
-        <h2 class="svc-product" style="color:var(--navy-dark);font-size:clamp(28px,3.5vw,44px);margin-bottom:4px">À LA CARTE PRICING</h2>
-        <div class="svc-tagline" style="font-size:clamp(13px,1.4vw,16px);margin-bottom:0;color:var(--grey)">If the bundle isn't for you · Standalone pricing, billed every 4 weeks</div>
+        <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(24px,3vw,38px);color:var(--navy-dark);letter-spacing:0.05em;margin:0 0 4px">À LA CARTE PRICING</h2>
+        <div style="font-size:13px;color:var(--grey)">Standalone pricing · billed every 4 weeks unless noted</div>
       </div>
       <div class="ala-grid">
         <div class="ala-card">
