@@ -52,8 +52,9 @@ a{text-decoration:none;color:inherit}
   display:flex;
   align-items:flex-start;
   justify-content:center;
-  padding:88px 60px 80px;
-  overflow:hidden;
+  padding:88px 60px 110px;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
 }
 .frame.active{
   opacity:1;
@@ -918,7 +919,7 @@ body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
    RESPONSIVE
 ============================ */
 @media(max-width:900px){
-  .frame{padding:100px 24px 80px}
+  .frame{padding:100px 24px 110px}
   .qualify-layout,.tf-layout,.svc-layout,.cc-layout{grid-template-columns:1fr;gap:40px}
   .tf-photo{max-width:320px;margin:0 auto}
   .ala-grid{grid-template-columns:1fr}
@@ -934,7 +935,7 @@ body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
 
 /* iPad landscape — 1024–1100px */
 @media(max-width:1100px){
-  .frame{padding:80px 40px 70px}
+  .frame{padding:80px 40px 110px}
   .app-phones{gap:20px}
   .phone-mock{max-height:42vh}
 }
