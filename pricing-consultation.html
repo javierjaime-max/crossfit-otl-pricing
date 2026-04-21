@@ -64,7 +64,7 @@ a{text-decoration:none;color:inherit}
   width:100%;
   max-width:1200px;
   margin:0 auto;
-  padding-bottom:130px;
+  padding-bottom:80px;
   position:relative;
   opacity:0;
   transform:translateY(16px);
@@ -623,13 +623,13 @@ body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
    FRAME 14 — VALUE STACK
 ============================ */
 .vs-wrap{max-width:820px;margin:0 auto}
-.vs-header{text-align:center;margin-bottom:40px}
-.vs-stack{display:flex;flex-direction:column;gap:12px}
+.vs-header{text-align:center;margin-bottom:20px}
+.vs-stack{display:flex;flex-direction:column;gap:8px}
 .vs-row{
   display:flex;justify-content:space-between;align-items:center;
   background:rgba(255,255,255,0.05);
   border:1px solid rgba(255,255,255,0.1);
-  border-radius:12px;padding:20px 26px;
+  border-radius:10px;padding:14px 20px;
   opacity:0;transform:translateX(-12px);
   transition:all 0.5s ease;
 }
@@ -649,14 +649,14 @@ body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
 .vs-row-price{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--white)}
 .vs-row-included{font-size:11px;font-weight:800;letter-spacing:0.14em;color:var(--gold)}
 .vs-total{
-  margin-top:28px;padding-top:28px;
+  margin-top:16px;padding-top:16px;
   border-top:2px dashed rgba(255,255,255,0.2);
   display:flex;justify-content:space-between;align-items:center;
   opacity:0;transition:opacity 0.6s ease 2.0s;
 }
 .frame.active .vs-total{opacity:1}
 .vs-total-label{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.6)}
-.vs-total-amt{font-family:'Bebas Neue',sans-serif;font-size:64px;color:rgba(255,255,255,0.4)}
+.vs-total-amt{font-family:'Bebas Neue',sans-serif;font-size:48px;color:rgba(255,255,255,0.4)}
 
 /* ============================
    FRAME 15 — REVEAL 1
@@ -869,18 +869,18 @@ body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
    FRAME 20 — À LA CARTE
 ============================ */
 .ala-wrap{max-width:1100px;margin:0 auto}
-.ala-header{text-align:center;margin-bottom:48px}
-.ala-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.ala-header{text-align:center;margin-bottom:20px}
+.ala-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .ala-card{
   background:var(--white);
   border:1px solid var(--grey-border);
-  border-radius:14px;padding:24px;
+  border-radius:10px;padding:16px;
 }
 .ala-card-title{
   font-family:'Bebas Neue',sans-serif;
-  font-size:18px;letter-spacing:0.04em;
-  color:var(--navy-dark);margin-bottom:16px;
-  padding-bottom:12px;border-bottom:1px solid var(--grey-border);
+  font-size:16px;letter-spacing:0.04em;
+  color:var(--navy-dark);margin-bottom:10px;
+  padding-bottom:8px;border-bottom:1px solid var(--grey-border);
 }
 .ala-row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;font-size:16px}
 .ala-row-label{color:#333}
@@ -934,11 +934,17 @@ body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
   .reveal-3-dim{font-size:24px;gap:20px;flex-direction:column}
 }
 
-/* iPad landscape — 1024–1100px */
+/* iPad portrait + landscape — compact layout */
 @media(max-width:1100px){
-  .frame{padding:80px 40px 0}
+  .frame{padding:72px 32px 0}
   .app-phones{gap:20px}
   .phone-mock{max-height:42vh}
+  .qualify-layout,.svc-layout{gap:40px}
+  .tf-layout{gap:32px}
+  .cc-layout{gap:40px}
+  .install-row{gap:10px;margin-bottom:20px}
+  .svc-product{font-size:clamp(36px,5.5vw,72px)}
+  .svc-tagline{font-size:clamp(18px,2.2vw,26px);margin-bottom:16px}
 }
 
 /* Touch devices — hide keyboard hints */
