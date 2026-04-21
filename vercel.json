@@ -1,3 +1,7 @@
 {
-  "rewrites": [{ "source": "/", "destination": "/pricing-consultation.html" }]
+  "rewrites": [
+    { "source": "/", "destination": "/pricing-consultation.html" },
+    { "source": "/explainer", "destination": "/crossfit-explainer.html" },
+    { "source": "/leaderboard", "destination": "/leaderboard.html" }
+  ]
 }
