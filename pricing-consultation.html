@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CrossFit OTL · Pricing Consultation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#003566;
+  --navy-dark:#002347;
+  --navy-deep:#001a33;
+  --white:#ffffff;
+  --black:#0a0a0a;
+  --grey:#a4a4a4;
+  --grey-light:#f5f5f7;
+  --grey-border:#e0e0e0;
+  --accent:#c1272d;
+  --accent-dark:#a01f24;
+  --gold:#f5a623;
+  --green:#34c759;
+}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Inter',-apple-system,sans-serif;
+  color:var(--black);
+  background:var(--navy-deep);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  user-select:none;
+  cursor:pointer;
+}
+a{text-decoration:none;color:inherit}
+
+/* ===== FRAME STAGE ===== */
+#stage{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+}
+.frame{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  visibility:hidden;
+  transition:opacity 0.55s cubic-bezier(0.4,0,0.2,1), visibility 0.55s;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:88px 60px 80px;
+  overflow:hidden;
+}
+.frame.active{
+  opacity:1;
+  visibility:visible;
+}
+.frame-inner{
+  width:100%;
+  max-width:1200px;
+  margin:auto;
+  position:relative;
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity 0.75s ease 0.15s, transform 0.75s ease 0.15s;
+}
+.frame.active .frame-inner{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ===== BACKGROUNDS ===== */
+.bg-navy{background:linear-gradient(180deg,var(--navy-dark) 0%,var(--navy-deep) 100%);color:var(--white)}
+.bg-navy-flat{background:var(--navy-dark);color:var(--white)}
+.bg-white{background:var(--white);color:var(--black)}
+.bg-grey{background:var(--grey-light);color:var(--black)}
+.bg-black{background:#000;color:var(--white)}
+
+/* ===== TYPOGRAPHY ===== */
+.bebas{font-family:'Bebas Neue',sans-serif;letter-spacing:0.01em;line-height:0.95}
+.label{
+  font-size:11px;font-weight:700;letter-spacing:0.16em;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:16px;
+  display:inline-flex;align-items:center;gap:10px;
+}
+.label.white{color:var(--white);opacity:0.6}
+.label.gold{color:var(--gold)}
+.label::before{content:'';width:24px;height:2px;background:currentColor}
+
+.h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,9vw,140px);line-height:0.9;letter-spacing:0.01em}
+.h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(44px,6vw,88px);line-height:0.92}
+.h3{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,4vw,56px);line-height:0.95}
+.body{font-size:clamp(15px,1.3vw,18px);line-height:1.7;opacity:0.82}
+.small{font-size:13px;line-height:1.6;opacity:0.7}
+
+.accent{color:var(--accent)}
+.gold{color:var(--gold)}
+.strike{text-decoration:line-through;opacity:0.4}
+
+/* ===== CHROME ===== */
+#progress-bar{
+  position:fixed;top:0;left:0;height:3px;background:var(--accent);
+  width:0%;z-index:200;transition:width 0.4s ease;
+}
+#chapter-nav{
+  position:fixed;top:22px;left:50%;transform:translateX(-50%);
+  display:flex;gap:2px;z-index:100;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  backdrop-filter:blur(16px);
+  border-radius:100px;padding:4px;
+}
+body.light-chrome #chapter-nav{background:rgba(0,35,71,0.06);border-color:rgba(0,35,71,0.12)}
+.ch-btn{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 16px;border-radius:100px;
+  cursor:pointer;transition:all 0.25s;
+  font-size:10px;font-weight:700;letter-spacing:0.14em;
+  text-transform:uppercase;color:rgba(255,255,255,0.55);
+}
+.ch-btn:hover{color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.05)}
+.ch-btn.active{color:var(--white);background:var(--accent)}
+body.light-chrome .ch-btn{color:rgba(0,35,71,0.5)}
+body.light-chrome .ch-btn:hover{color:var(--navy-dark);background:rgba(0,35,71,0.05)}
+body.light-chrome .ch-btn.active{color:var(--white);background:var(--accent)}
+.ch-btn-dots{display:flex;gap:3px;align-items:center}
+.ch-btn-dot{
+  width:4px;height:4px;border-radius:50%;
+  background:currentColor;opacity:0.4;transition:opacity 0.2s;
+}
+.ch-btn-dot.visited{opacity:0.7}
+.ch-btn-dot.current{opacity:1;width:6px;border-radius:100px}
+.ch-btn.active .ch-btn-dot{opacity:0.75}
+.ch-btn.active .ch-btn-dot.current{opacity:1}
+
+/* Mobile: compact chapter nav */
+@media(max-width:900px){
+  #chapter-nav{flex-wrap:nowrap;overflow-x:auto;max-width:calc(100vw - 160px);font-size:9px}
+  .ch-btn{padding:6px 10px;font-size:9px;letter-spacing:0.1em}
+  .ch-btn-dots{display:none}
+}
+
+/* ===== MENU BUTTON + INDEX OVERLAY ===== */
+#menu-btn{
+  position:fixed;top:22px;right:32px;z-index:120;
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.15);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all 0.2s;
+  color:var(--white);
+}
+#menu-btn:hover{background:rgba(255,255,255,0.15)}
+body.light-chrome #menu-btn{background:rgba(0,35,71,0.06);border-color:rgba(0,35,71,0.15);color:var(--navy-dark)}
+body.light-chrome #menu-btn:hover{background:rgba(0,35,71,0.12)}
+.menu-icon{width:18px;height:14px;position:relative}
+.menu-icon::before,.menu-icon::after,.menu-icon span{
+  content:'';position:absolute;left:0;right:0;height:2px;
+  background:currentColor;border-radius:2px;
+  transition:all 0.25s;
+}
+.menu-icon::before{top:0}
+.menu-icon span{top:50%;margin-top:-1px}
+.menu-icon::after{bottom:0}
+body.menu-open .menu-icon::before{top:50%;margin-top:-1px;transform:rotate(45deg)}
+body.menu-open .menu-icon::after{bottom:50%;margin-bottom:-1px;transform:rotate(-45deg)}
+body.menu-open .menu-icon span{opacity:0}
+
+#index-overlay{
+  position:fixed;inset:0;z-index:110;
+  background:rgba(0,10,25,0.95);
+  backdrop-filter:blur(24px);
+  opacity:0;visibility:hidden;
+  transition:opacity 0.35s ease, visibility 0.35s;
+  overflow-y:auto;
+  padding:100px 60px 60px;
+}
+body.menu-open #index-overlay{opacity:1;visibility:visible}
+.index-wrap{max-width:1100px;margin:0 auto}
+.index-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:48px;color:var(--white);
+  margin-bottom:6px;letter-spacing:0.02em;
+}
+.index-sub{
+  font-size:12px;letter-spacing:0.18em;text-transform:uppercase;
+  color:rgba(255,255,255,0.4);margin-bottom:48px;
+}
+.index-chapter{margin-bottom:40px}
+.index-ch-title{
+  font-size:10px;font-weight:800;letter-spacing:0.22em;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:14px;padding-bottom:10px;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+}
+.index-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px}
+.index-item{
+  display:flex;align-items:center;gap:16px;
+  padding:14px 18px;border-radius:10px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.08);
+  cursor:pointer;transition:all 0.2s;
+}
+.index-item:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.2);transform:translateX(3px)}
+.index-item.current{border-color:var(--accent);background:rgba(193,39,45,0.08)}
+.index-item-num{
+  font-family:'Bebas Neue',sans-serif;font-size:26px;
+  color:rgba(255,255,255,0.4);min-width:34px;line-height:1;
+}
+.index-item.current .index-item-num{color:var(--accent)}
+.index-item-title{font-size:13px;font-weight:600;color:rgba(255,255,255,0.9);letter-spacing:0.02em}
+.index-item.current .index-item-title{color:var(--white)}
+
+/* Deprecated old #dots — hidden but kept in case */
+#dots{display:none}
+
+#brand-mark{
+  position:fixed;top:24px;left:32px;z-index:100;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:18px;letter-spacing:0.14em;color:var(--white);
+}
+#brand-mark span{color:var(--accent)}
+body.light-chrome #brand-mark{color:var(--navy-dark)}
+
+#controls{
+  position:fixed;bottom:24px;right:32px;z-index:100;
+  display:flex;gap:8px;align-items:center;
+}
+.ctrl-btn{
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.15);
+  color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all 0.2s;
+  font-size:16px;
+}
+.ctrl-btn:hover{background:rgba(255,255,255,0.18)}
+.ctrl-btn.next{background:var(--accent);border-color:var(--accent);width:auto;padding:0 22px;border-radius:24px;font-weight:700;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;height:44px;gap:8px}
+.ctrl-btn.next:hover{background:var(--accent-dark)}
+body.light-chrome .ctrl-btn{background:rgba(0,35,71,0.06);border-color:rgba(0,35,71,0.15);color:var(--navy-dark)}
+body.light-chrome .ctrl-btn:hover{background:rgba(0,35,71,0.12)}
+body.light-chrome .ctrl-btn.next{background:var(--accent);border-color:var(--accent);color:var(--white)}
+
+#frame-count{
+  position:fixed;bottom:32px;left:32px;z-index:100;
+  font-size:11px;font-weight:600;letter-spacing:0.16em;
+  text-transform:uppercase;color:rgba(255,255,255,0.4);
+  font-variant-numeric:tabular-nums;
+}
+body.light-chrome #frame-count{color:rgba(0,35,71,0.4)}
+
+#kbd-hint{
+  position:fixed;bottom:32px;left:50%;transform:translateX(-50%);z-index:100;
+  font-size:10px;letter-spacing:0.18em;text-transform:uppercase;
+  color:rgba(255,255,255,0.3);
+  display:flex;gap:16px;
+}
+body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
+.key{border:1px solid currentColor;padding:2px 7px;border-radius:4px;font-family:monospace;font-size:10px}
+
+/* ===== COMPONENT: PULSE BADGE ===== */
+.pulse-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.18);
+  padding:8px 18px;border-radius:100px;
+  font-size:11px;font-weight:600;letter-spacing:0.12em;
+  text-transform:uppercase;color:rgba(255,255,255,0.85);
+  margin-bottom:36px;
+}
+.pulse-badge .dot-live{
+  width:8px;height:8px;border-radius:50%;background:var(--green);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+
+/* ============================
+   FRAME 1 — COVER
+============================ */
+#f1{
+  background:
+    linear-gradient(135deg,rgba(0,26,51,0.88) 0%,rgba(0,53,102,0.72) 50%,rgba(0,20,40,0.95) 100%),
+    var(--navy-deep);
+  background-size:cover;
+  background-position:center;
+}
+#f1::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 70% 30%,rgba(193,39,45,0.12) 0%,transparent 60%);
+}
+.cover-center{text-align:center;position:relative;z-index:2}
+.cover-title{font-size:clamp(64px,11vw,180px);color:var(--white);margin-bottom:28px}
+.cover-title .line-1{display:block;font-size:0.45em;opacity:0.5;letter-spacing:0.12em;margin-bottom:14px;font-weight:400}
+.cover-sub{font-size:clamp(16px,1.6vw,20px);color:rgba(255,255,255,0.65);max-width:620px;margin:0 auto;line-height:1.7}
+.cover-parent{
+  margin-top:48px;
+  font-size:10px;font-weight:700;letter-spacing:0.22em;
+  text-transform:uppercase;color:rgba(255,255,255,0.4);
+}
+.cover-parent span{color:var(--accent)}
+
+/* ============================
+   FRAME 2 — MISSION
+============================ */
+.mission-wrap{text-align:center;max-width:980px;margin:0 auto}
+.mission-quote{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(32px,4.5vw,64px);
+  line-height:1.08;color:var(--white);
+  margin-bottom:40px;
+}
+.mission-quote .qmark{color:var(--accent);font-size:1.4em;line-height:0;vertical-align:-0.15em}
+.mission-follow{font-size:clamp(15px,1.4vw,18px);color:rgba(255,255,255,0.55);max-width:560px;margin:0 auto;font-style:italic}
+
+/* ============================
+   FRAME 3 — QUALIFY
+============================ */
+.qualify-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.qualify-heading{margin-bottom:22px}
+.qualify-desc{color:var(--grey);font-size:16px;margin-bottom:0}
+.q-list{display:flex;flex-direction:column;gap:14px}
+.q-item{
+  display:flex;gap:18px;align-items:flex-start;
+  background:var(--white);
+  border:1px solid var(--grey-border);
+  border-radius:12px;
+  padding:22px 26px;
+  cursor:pointer;transition:all 0.25s;
+}
+.q-item:hover{border-color:var(--navy);transform:translateX(4px)}
+.q-item.checked{border-color:var(--navy);background:#fafbfe;box-shadow:0 4px 20px rgba(0,53,102,0.08)}
+.q-item.checked .q-box{background:var(--navy);border-color:var(--navy)}
+.q-item.checked .q-box::after{opacity:1;transform:scale(1)}
+.q-box{
+  width:26px;height:26px;border:2px solid var(--grey-border);
+  border-radius:6px;flex-shrink:0;margin-top:1px;
+  position:relative;transition:all 0.2s;
+}
+.q-box::after{
+  content:'✓';position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;color:var(--white);font-size:15px;
+  opacity:0;transform:scale(0.5);transition:all 0.25s;
+}
+.q-text{font-size:16px;font-weight:600;color:var(--black);line-height:1.45}
+.q-text small{display:block;font-weight:400;color:var(--grey);font-size:13px;margin-top:3px}
+.all-checked-cta{
+  display:none;margin-top:24px;padding:18px 26px;
+  background:var(--navy);color:var(--white);
+  border-radius:10px;text-align:center;
+  font-size:13px;font-weight:700;letter-spacing:0.08em;
+  text-transform:uppercase;
+  cursor:pointer;animation:pulseGlow 2s infinite;
+}
+.all-checked-cta.show{display:block}
+@keyframes pulseGlow{
+  0%,100%{box-shadow:0 0 0 0 rgba(193,39,45,0.4)}
+  50%{box-shadow:0 0 0 16px rgba(193,39,45,0)}
+}
+
+/* ============================
+   FRAMES 4-7 — TRANSFORMATIONS
+============================ */
+.tf-layout{display:grid;grid-template-columns:420px 1fr;gap:56px;align-items:center;max-width:1100px;margin:0 auto}
+.tf-photo{
+  width:100%;aspect-ratio:4/5;
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-deep) 100%);
+  border-radius:16px;
+  position:relative;overflow:hidden;
+  border-left:4px solid var(--accent);
+}
+.tf-photo::after{
+  content:attr(data-placeholder);
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(255,255,255,0.25);font-weight:600;
+  text-align:center;padding:40px;
+}
+.tf-data{display:flex;flex-direction:column;gap:28px}
+.tf-name-row{display:flex;align-items:baseline;gap:16px;font-family:'Bebas Neue',sans-serif;letter-spacing:0.02em}
+.tf-name{font-size:28px;color:var(--white)}
+.tf-tenure{font-size:14px;color:var(--grey);letter-spacing:0.16em;text-transform:uppercase;font-family:'Inter',sans-serif;font-weight:600}
+.tf-headline{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(56px,7vw,104px);
+  line-height:0.9;color:var(--gold);
+}
+.tf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:20px 0;border-top:1px solid rgba(255,255,255,0.1);border-bottom:1px solid rgba(255,255,255,0.1)}
+.tf-stat-label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:6px;font-weight:600}
+.tf-stat-val{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--white);line-height:1}
+.tf-stat-val small{font-size:13px;color:rgba(255,255,255,0.5);font-family:'Inter',sans-serif;font-weight:500;margin-left:4px}
+.tf-meta{display:flex;gap:28px;flex-wrap:wrap;font-size:13px;color:rgba(255,255,255,0.6)}
+.tf-meta span strong{color:var(--white);font-family:'Bebas Neue',sans-serif;font-size:20px;display:block;margin-bottom:2px}
+.tf-milestones{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px}
+.tf-milestone{font-size:13px;color:rgba(255,255,255,0.82);display:flex;gap:10px;align-items:center}
+.tf-milestone::before{
+  content:'';width:14px;height:14px;border-radius:50%;
+  background:var(--accent);flex-shrink:0;
+  background-image:linear-gradient(135deg,var(--accent),var(--accent-dark));
+  position:relative;
+}
+.tf-quote{
+  font-size:15px;line-height:1.7;font-style:italic;
+  color:rgba(255,255,255,0.85);
+  padding-left:20px;border-left:2px solid var(--accent);
+}
+.tf-cc-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,rgba(245,166,35,0.18) 0%,rgba(245,166,35,0.08) 100%);
+  border:1px solid rgba(245,166,35,0.45);
+  padding:8px 16px;border-radius:100px;
+  font-size:11px;font-weight:800;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--gold);
+  align-self:flex-start;
+}
+.tf-cc-badge::before{content:'🔥';font-size:14px;filter:hue-rotate(-20deg)}
+.tf-cc-badge .num{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:0.04em;color:var(--gold);margin:0 2px}
+
+/* Committed Club callback — mini member row */
+.cc-callback{
+  margin-top:48px;padding-top:32px;
+  border-top:1px solid rgba(255,255,255,0.1);
+  text-align:center;
+}
+.cc-callback-label{
+  font-size:11px;font-weight:700;letter-spacing:0.18em;
+  text-transform:uppercase;color:rgba(255,255,255,0.5);
+  margin-bottom:20px;
+}
+.cc-callback-label strong{color:var(--gold)}
+.cc-member-row{
+  display:flex;justify-content:center;gap:14px;flex-wrap:wrap;
+}
+.cc-mini{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(245,166,35,0.08);
+  border:1px solid rgba(245,166,35,0.3);
+  border-radius:100px;padding:8px 18px;
+}
+.cc-mini-name{
+  font-size:12px;font-weight:700;color:var(--white);
+  letter-spacing:0.04em;
+}
+.cc-mini-streak{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:18px;color:var(--gold);
+  letter-spacing:0.04em;line-height:1;
+}
+.cc-mini-streak small{font-size:10px;font-family:'Inter',sans-serif;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-left:2px;opacity:0.7}
+
+/* ============================
+   FRAME 8 — SERVICES INTRO
+============================ */
+.si-wrap{text-align:center;max-width:900px;margin:0 auto}
+.si-chips{display:flex;gap:12px;justify-content:center;margin-top:48px;flex-wrap:wrap}
+.si-chip{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:100px;padding:10px 22px;
+  font-size:12px;font-weight:700;letter-spacing:0.12em;
+  text-transform:uppercase;color:rgba(255,255,255,0.82);
+}
+.si-chip .num{color:var(--accent);margin-right:8px}
+
+/* ============================
+   FRAMES 9-12 — SERVICES
+============================ */
+.svc-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1100px;margin:0 auto}
+.svc-visual{
+  aspect-ratio:1;
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 100%);
+  border-radius:16px;
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.svc-visual.light{background:linear-gradient(135deg,#edf0f5 0%,#d8dde4 100%)}
+.svc-icon-box{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(80px,12vw,180px);
+  color:rgba(255,255,255,0.85);
+  line-height:0.9;text-align:center;
+}
+.svc-visual.light .svc-icon-box{color:var(--navy)}
+.svc-num-big{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(120px,18vw,240px);
+  color:var(--accent);
+  line-height:0.85;
+}
+.svc-content .label{margin-bottom:16px}
+.svc-product{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(48px,6.5vw,92px);
+  line-height:0.92;letter-spacing:0.01em;
+  color:var(--navy-dark);
+  margin-bottom:14px;
+}
+.svc-content.on-dark .svc-product{color:var(--white)}
+.svc-tagline{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(22px,2.4vw,30px);
+  letter-spacing:0.04em;color:var(--accent);
+  margin-bottom:24px;line-height:1;
+}
+.svc-title{margin-bottom:20px}
+.svc-body{margin-bottom:28px;font-size:16px;line-height:1.75}
+.svc-checks{list-style:none;display:flex;flex-direction:column;gap:12px}
+.svc-checks li{
+  display:flex;gap:14px;align-items:flex-start;
+  font-size:15px;line-height:1.5;
+}
+.svc-checks li::before{
+  content:'';flex-shrink:0;width:20px;height:20px;
+  border-radius:50%;background:var(--accent);
+  margin-top:2px;
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='white' d='M8.5 13.5l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4z'/%3E%3C/svg%3E");
+  background-size:contain;
+}
+
+/* Group classes — 4 tile reveal */
+.group-tiles{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px}
+.group-tile{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:12px;padding:22px;
+}
+.group-tile-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:22px;color:var(--accent);margin-bottom:6px;
+}
+.group-tile-name{font-size:14px;font-weight:700;color:var(--white);margin-bottom:6px;letter-spacing:0.02em}
+.group-tile-desc{font-size:12px;color:rgba(255,255,255,0.6);line-height:1.5}
+
+/* ============================
+   FRAME 13 — THE APP
+============================ */
+.app-wrap{max-width:1100px;margin:0 auto}
+.app-header{text-align:center;margin-bottom:24px}
+.app-phones{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:32px;align-items:start;
+}
+.phone-mock{
+  background:#0d0d0d;
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:42px;
+  padding:10px;
+  max-height:44vh;
+  box-shadow:0 24px 60px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.04) inset;
+  position:relative;
+  aspect-ratio:9/19.5;
+  overflow:hidden;
+  transition:transform 0.4s;
+}
+.phone-mock:hover{transform:translateY(-6px)}
+.phone-app-badge{
+  position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+  z-index:3;
+  background:var(--accent);color:var(--white);
+  font-size:9px;font-weight:800;letter-spacing:0.14em;
+  text-transform:uppercase;
+  padding:5px 12px;border-radius:100px;
+  box-shadow:0 4px 12px rgba(193,39,45,0.4);
+  white-space:nowrap;
+}
+.phone-screen{
+  width:100%;height:100%;
+  background:#000;
+  border-radius:32px;
+  overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.phone-screen img{
+  width:100%;height:100%;object-fit:cover;
+  display:block;
+}
+.phone-placeholder{
+  padding:40px 24px;text-align:center;
+  font-size:10px;letter-spacing:0.2em;
+  text-transform:uppercase;color:rgba(255,255,255,0.35);
+  line-height:1.8;
+}
+.phone-placeholder strong{
+  display:block;font-family:'Bebas Neue',sans-serif;
+  color:var(--accent);font-size:18px;letter-spacing:0.14em;
+  margin-bottom:12px;
+}
+.phone-caption{
+  margin-top:20px;text-align:center;
+}
+.phone-caption-label{
+  font-size:10px;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:6px;font-weight:700;
+}
+.phone-caption-title{
+  font-family:'Bebas Neue',sans-serif;font-size:22px;
+  color:var(--white);letter-spacing:0.02em;margin-bottom:4px;
+}
+.phone-caption-desc{font-size:12px;color:rgba(255,255,255,0.55);line-height:1.5}
+.app-footnote{
+  margin-top:48px;text-align:center;
+  font-size:12px;color:rgba(255,255,255,0.4);
+  font-style:italic;
+}
+.app-footnote a{color:rgba(255,255,255,0.6);text-decoration:underline}
+
+/* ============================
+   FRAME 14 — BUNDLE INTRO
+============================ */
+.bi-wrap{text-align:center;max-width:880px;margin:0 auto}
+
+/* ============================
+   FRAME 14 — VALUE STACK
+============================ */
+.vs-wrap{max-width:820px;margin:0 auto}
+.vs-header{text-align:center;margin-bottom:40px}
+.vs-stack{display:flex;flex-direction:column;gap:12px}
+.vs-row{
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:12px;padding:20px 26px;
+  opacity:0;transform:translateX(-12px);
+  transition:all 0.5s ease;
+}
+.frame.active .vs-row{opacity:1;transform:translateX(0)}
+.frame.active .vs-row:nth-child(1){transition-delay:0.4s}
+.frame.active .vs-row:nth-child(2){transition-delay:0.7s}
+.frame.active .vs-row:nth-child(3){transition-delay:1.0s}
+.frame.active .vs-row:nth-child(4){transition-delay:1.3s}
+.frame.active .vs-row:nth-child(5){transition-delay:1.6s}
+.vs-row-left{display:flex;align-items:center;gap:16px}
+.vs-row-num{
+  font-family:'Bebas Neue',sans-serif;font-size:20px;
+  color:var(--accent);width:32px;text-align:left;
+}
+.vs-row-name{font-size:15px;font-weight:600;color:var(--white);margin-bottom:2px}
+.vs-row-detail{font-size:12px;color:rgba(255,255,255,0.55)}
+.vs-row-price{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--white)}
+.vs-row-included{font-size:11px;font-weight:800;letter-spacing:0.14em;color:var(--gold)}
+.vs-total{
+  margin-top:28px;padding-top:28px;
+  border-top:2px dashed rgba(255,255,255,0.2);
+  display:flex;justify-content:space-between;align-items:center;
+  opacity:0;transition:opacity 0.6s ease 2.0s;
+}
+.frame.active .vs-total{opacity:1}
+.vs-total-label{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.6)}
+.vs-total-amt{font-family:'Bebas Neue',sans-serif;font-size:64px;color:rgba(255,255,255,0.4)}
+
+/* ============================
+   FRAME 15 — REVEAL 1
+============================ */
+.reveal-big{text-align:center}
+.reveal-caption{
+  font-size:11px;font-weight:700;letter-spacing:0.22em;
+  text-transform:uppercase;color:rgba(255,255,255,0.45);
+  margin-bottom:24px;
+}
+.reveal-1-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(140px,22vw,280px);
+  color:var(--grey);line-height:0.85;
+}
+.reveal-1-sub{
+  margin-top:32px;
+  font-size:15px;color:rgba(255,255,255,0.5);
+  font-style:italic;
+}
+
+/* ============================
+   FRAME 16 — REVEAL 2 (HERO MOMENT)
+============================ */
+.reveal-2-wrap{text-align:center;position:relative}
+.reveal-2-wrap::before{
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:800px;height:800px;max-width:90vw;max-height:90vh;
+  background:radial-gradient(circle,rgba(193,39,45,0.28) 0%,transparent 60%);
+  z-index:0;pointer-events:none;
+}
+.reveal-2-old{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:52px;color:rgba(255,255,255,0.25);
+  text-decoration:line-through;margin-bottom:16px;
+  position:relative;z-index:1;
+}
+.reveal-2-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(160px,26vw,340px);
+  color:var(--white);line-height:0.85;
+  text-shadow:0 0 80px rgba(193,39,45,0.5);
+  position:relative;z-index:1;
+}
+.reveal-2-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--accent);color:var(--white);
+  padding:12px 28px;border-radius:100px;
+  font-size:13px;font-weight:800;letter-spacing:0.14em;
+  text-transform:uppercase;
+  margin-top:32px;position:relative;z-index:1;
+  box-shadow:0 8px 32px rgba(193,39,45,0.5);
+}
+.reveal-2-sub{
+  margin-top:28px;
+  font-size:16px;color:rgba(255,255,255,0.7);
+  position:relative;z-index:1;
+}
+
+/* ============================
+   FRAME 17 — REVEAL 3 (INSTALLMENTS)
+============================ */
+.reveal-3-wrap{text-align:center;max-width:1000px;margin:0 auto}
+.reveal-3-dim{
+  display:flex;justify-content:center;gap:40px;margin-bottom:48px;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:36px;color:rgba(255,255,255,0.3);
+}
+.reveal-3-dim span{text-decoration:line-through}
+.reveal-3-label{
+  font-size:11px;font-weight:700;letter-spacing:0.22em;
+  text-transform:uppercase;color:rgba(255,255,255,0.5);
+  margin-bottom:32px;
+}
+.install-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:36px}
+.install-card{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:14px;padding:32px 20px;
+  opacity:0;transform:translateY(20px);
+  transition:all 0.6s ease;
+}
+.frame.active .install-card:nth-child(1){transition-delay:0.3s;opacity:1;transform:translateY(0)}
+.frame.active .install-card:nth-child(2){transition-delay:0.55s;opacity:1;transform:translateY(0)}
+.frame.active .install-card:nth-child(3){transition-delay:0.8s;opacity:1;transform:translateY(0)}
+.install-month{
+  font-size:11px;font-weight:700;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:12px;
+}
+.install-amt{font-family:'Bebas Neue',sans-serif;font-size:64px;color:var(--white);line-height:1}
+.install-note{font-size:12px;color:rgba(255,255,255,0.55);margin-top:12px}
+.install-sum{
+  background:rgba(255,255,255,0.04);
+  border:1px dashed rgba(255,255,255,0.2);
+  border-radius:10px;padding:22px;
+}
+.install-sum-top{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--white);margin-bottom:6px}
+.install-sum-top span{color:var(--accent)}
+.install-sum-small{font-size:12px;color:rgba(255,255,255,0.6);line-height:1.6}
+.install-sum-small strong{color:var(--gold)}
+
+/* ============================
+   FRAME 18 — COMMITTED CLUB
+============================ */
+.cc-layout{display:grid;grid-template-columns:340px 1fr;gap:72px;align-items:center;max-width:1000px;margin:0 auto}
+.cc-badge{
+  aspect-ratio:1;
+  background:linear-gradient(135deg,#4a3410 0%,#8a6120 100%);
+  border:2px solid var(--gold);
+  border-radius:20px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.cc-badge::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 30% 30%,rgba(245,166,35,0.3) 0%,transparent 60%);
+}
+.cc-badge-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(80px,10vw,140px);
+  color:var(--gold);line-height:0.9;
+  position:relative;z-index:1;text-align:center;
+}
+.cc-badge-label{
+  font-size:11px;font-weight:700;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--gold);
+  margin-top:4px;display:block;
+  font-family:'Inter',sans-serif;
+}
+.cc-content .label{color:var(--gold)}
+.cc-quote{
+  font-size:17px;line-height:1.75;
+  color:rgba(255,255,255,0.9);
+  padding-left:24px;border-left:3px solid var(--gold);
+  font-style:italic;
+}
+
+/* ============================
+   FRAME 19 — YOUTH PROGRAM
+============================ */
+.youth-hero{text-align:center;max-width:900px;margin:0 auto 40px}
+.youth-subline{
+  font-size:15px;color:rgba(255,255,255,0.65);
+  max-width:640px;margin:0 auto;line-height:1.75;
+  font-style:italic;
+}
+.youth-pillar{
+  background:rgba(245,166,35,0.08);
+  border:1px solid rgba(245,166,35,0.25);
+  border-radius:12px;padding:18px 24px;
+  max-width:760px;margin:28px auto 0;
+  display:flex;gap:16px;align-items:center;
+}
+.youth-pillar-icon{
+  font-family:'Bebas Neue',sans-serif;
+  color:var(--gold);font-size:26px;
+  flex-shrink:0;letter-spacing:0.08em;
+}
+.youth-pillar-txt{font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;text-align:left}
+.youth-pillar-txt strong{color:var(--gold)}
+.youth-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+  max-width:1100px;margin:48px auto 0;
+}
+.youth-card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:14px;padding:28px 24px;
+  position:relative;
+  transition:all 0.3s;
+}
+.youth-card:hover{border-color:var(--gold);background:rgba(255,255,255,0.06)}
+.youth-card-tier{
+  font-size:10px;font-weight:700;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:10px;
+}
+.youth-card-age{
+  font-family:'Bebas Neue',sans-serif;font-size:36px;
+  color:var(--white);margin-bottom:4px;line-height:1;
+}
+.youth-card-range{
+  font-size:11px;font-weight:600;letter-spacing:0.1em;
+  text-transform:uppercase;color:rgba(255,255,255,0.45);
+  margin-bottom:20px;
+}
+.youth-card-schedule{
+  font-size:12px;color:rgba(255,255,255,0.7);
+  padding:12px 0;border-top:1px solid rgba(255,255,255,0.08);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  margin-bottom:16px;
+}
+.youth-card-schedule strong{color:var(--white);display:block;margin-bottom:3px;font-weight:700}
+.youth-price-rows{display:flex;flex-direction:column;gap:8px}
+.youth-price-row-i{
+  display:flex;justify-content:space-between;align-items:baseline;
+  font-size:12px;color:rgba(255,255,255,0.65);
+}
+.youth-price-row-i .amt{
+  font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white);
+}
+.youth-price-row-i .amt small{font-size:11px;color:rgba(255,255,255,0.4);font-weight:500;font-family:'Inter',sans-serif;margin-left:3px}
+.youth-note{
+  margin-top:32px;text-align:center;
+  font-size:12px;color:rgba(255,255,255,0.4);
+  font-style:italic;letter-spacing:0.02em;
+}
+
+/* ============================
+   FRAME 20 — À LA CARTE
+============================ */
+.ala-wrap{max-width:1100px;margin:0 auto}
+.ala-header{text-align:center;margin-bottom:48px}
+.ala-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.ala-card{
+  background:var(--white);
+  border:1px solid var(--grey-border);
+  border-radius:14px;padding:24px;
+}
+.ala-card-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:18px;letter-spacing:0.04em;
+  color:var(--navy-dark);margin-bottom:16px;
+  padding-bottom:12px;border-bottom:1px solid var(--grey-border);
+}
+.ala-row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;font-size:13px}
+.ala-row-label{color:var(--grey)}
+.ala-row-price{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--navy-dark)}
+
+/* ============================
+   FRAME 20 — FINAL CTA
+============================ */
+#f20{
+  background:
+    radial-gradient(ellipse at 50% 40%,rgba(193,39,45,0.18) 0%,transparent 55%),
+    linear-gradient(180deg,var(--navy-dark) 0%,var(--navy-deep) 100%);
+}
+.close-wrap{text-align:center;max-width:760px;margin:0 auto}
+.close-title{font-size:clamp(64px,11vw,160px);color:var(--white);margin-bottom:24px}
+.close-title span{color:var(--accent)}
+.close-sub{font-size:clamp(16px,1.6vw,20px);color:rgba(255,255,255,0.72);margin-bottom:48px;line-height:1.6}
+.close-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.btn-big{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:20px 44px;border-radius:8px;border:none;
+  font-size:14px;font-weight:700;letter-spacing:0.1em;
+  text-transform:uppercase;cursor:pointer;
+  transition:all 0.25s;
+}
+.btn-red{background:var(--accent);color:var(--white)}
+.btn-red:hover{background:var(--accent-dark);transform:translateY(-2px);box-shadow:0 12px 32px rgba(193,39,45,0.4)}
+.btn-ghost{background:transparent;color:var(--white);border:2px solid rgba(255,255,255,0.5)}
+.btn-ghost:hover{background:var(--white);color:var(--navy-dark);border-color:var(--white)}
+.close-contact{
+  margin-top:32px;font-size:13px;color:rgba(255,255,255,0.4);
+  letter-spacing:0.08em;
+}
+.close-contact a{color:rgba(255,255,255,0.7);text-decoration:underline}
+
+/* ============================
+   RESPONSIVE
+============================ */
+@media(max-width:900px){
+  .frame{padding:100px 24px 80px}
+  .qualify-layout,.tf-layout,.svc-layout,.cc-layout{grid-template-columns:1fr;gap:40px}
+  .tf-photo{max-width:320px;margin:0 auto}
+  .ala-grid{grid-template-columns:1fr}
+  .install-row{grid-template-columns:1fr}
+  .tf-milestones{grid-template-columns:1fr}
+  #kbd-hint{display:none}
+  #brand-mark{left:20px;top:20px}
+  #dots{top:20px;gap:14px}
+  #controls{bottom:20px;right:20px}
+  #frame-count{bottom:24px;left:20px}
+  .reveal-3-dim{font-size:24px;gap:20px;flex-direction:column}
+}
+
+/* iPad landscape — 1024–1100px */
+@media(max-width:1100px){
+  .frame{padding:80px 40px 70px}
+  .app-phones{gap:20px}
+  .phone-mock{max-height:42vh}
+}
+
+/* Touch devices — hide keyboard hints */
+@media(pointer:coarse){
+  #kbd-hint{display:none}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:opacity 0.2s !important}
+  .frame{transition:opacity 0.2s}
+  .frame-inner{transition:opacity 0.2s}
+}
+</style>
+</head>
+<body>
+
+<!-- CHROME -->
+<div id="progress-bar"></div>
+<div id="brand-mark">CROSSFIT <span>OTL</span></div>
+<nav id="chapter-nav"></nav>
+<button id="menu-btn" aria-label="Index"><div class="menu-icon"><span></span></div></button>
+<div id="dots"></div>
+<div id="frame-count"><span id="fc-cur">01</span> / <span id="fc-total">20</span></div>
+
+<!-- INDEX OVERLAY -->
+<div id="index-overlay">
+  <div class="index-wrap">
+    <div class="index-title">Index</div>
+    <div class="index-sub">Jump to any section · press M or Esc to close</div>
+    <div id="index-body"></div>
+  </div>
+</div>
+<div id="kbd-hint">
+  <span><span class="key">←</span> BACK</span>
+  <span><span class="key">→</span> NEXT</span>
+  <span><span class="key">M</span> INDEX</span>
+  <span><span class="key">ESC</span> HOME</span>
+</div>
+<div id="controls">
+  <div class="ctrl-btn" id="btn-prev" title="Back">←</div>
+  <div class="ctrl-btn next" id="btn-next">Continue →</div>
+</div>
+
+<!-- STAGE -->
+<div id="stage">
+
+<!-- ================= FRAME 1 — COVER ================= -->
+<section class="frame bg-navy" id="f1" data-chapter="welcome" data-title="Welcome">
+  <div class="frame-inner">
+    <div class="cover-center">
+      <div class="pulse-badge"><span class="dot-live"></span>On The Line Fitness</div>
+      <h1 class="cover-title bebas">
+        <span class="line-1">Welcome to</span>
+        CROSSFIT <span class="accent">OTL</span>
+      </h1>
+      <p class="cover-sub">The CrossFit affiliate of On The Line Fitness. A GPP gym for ages 5 to 75. Built by the family that coaches it.</p>
+      <div class="cover-parent">North Richland Hills, TX · <span>crossfitotl.com</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRAME 2 — MISSION ================= -->
+<section class="frame bg-navy-flat" data-chapter="welcome" data-title="The Mission">
+  <div class="frame-inner">
+    <div class="mission-wrap">
+      <div class="label white">Our Mission</div>
+      <p class="mission-quote">
+        <span class="qmark">"</span>To build people who are free from physical dependency — strong enough, capable enough, and resilient enough that their body never limits their life.<span class="qmark">"</span>
+      </p>
+      <p class="mission-follow">The goal is not fitness as an end. The goal is a life that doesn't require permission from your body.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRAME 3 — QUALIFY ================= -->
+<section class="frame bg-grey" data-chapter="welcome" data-title="Are You Ready?" data-light>
+  <div class="frame-inner">
+    <div class="qualify-layout">
+      <div>
+        <div class="label">The commitment</div>
+        <h2 class="h2 qualify-heading">ARE YOU READY FOR A <span class="accent">LIFESTYLE RESET?</span></h2>
+        <p class="qualify-desc">Check the boxes that apply to you. The more you check, the more this program is built for you.</p>
+      </div>
+      <div>
+        <div class="q-list">
+          <div class="q-item" data-q>
+            <div class="q-box"></div>
+            <div class="q-text">Can you commit to working out at least <strong>4× per week</strong>?
+              <small>Morning and evening classes available daily</small></div>
+          </div>
+          <div class="q-item" data-q>
+            <div class="q-box"></div>
+            <div class="q-text">Can you commit to a <strong>12-week program</strong>?
+              <small>Real results take a real timeline</small></div>
+          </div>
+          <div class="q-item" data-q>
+            <div class="q-box"></div>
+            <div class="q-text">Are you ready to <strong>invest your time and money</strong> in your health?
+              <small>Both matter</small></div>
+          </div>
+          <div class="q-item" data-q>
+            <div class="q-box"></div>
+            <div class="q-text">Can you commit to being <strong>coachable</strong>?
+              <small>Trust the process. Follow the system.</small></div>
+          </div>
+          <div class="all-checked-cta" id="all-checked">✓ You're ready. Let's look at the proof →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRAME 4 — TRANSFORMATION 1 ================= -->
+<section class="frame bg-navy" data-chapter="proof" data-title="Lanita M. · -57 lbs Fat">
+  <div class="frame-inner">
+    <div class="tf-layout">
+      <div class="tf-photo" style="background:none">
+        <img src="assets/member-lanita-morgan.jpg" alt="Lanita Morgan" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block">
+      </div>
+      <div class="tf-data">
+        <div class="tf-name-row">
+          <div class="tf-name">LANITA M.</div>
+          <div class="tf-tenure">· 9 Months at CrossFit OTL</div>
+        </div>
+        <div class="tf-cc-badge">Committed Club · <span class="num">9</span> Month Streak</div>
+        <div class="tf-headline" data-countup="-57.4" data-suffix=" LBS FAT LOST">0 LBS FAT LOST</div>
+        <div class="tf-grid">
+          <div><div class="tf-stat-label">Fat Lost</div><div class="tf-stat-val" data-countup="-57.4"><span>0</span><small>lbs</small></div></div>
+          <div><div class="tf-stat-label">Muscle Gained</div><div class="tf-stat-val" data-countup="4.9"><span>0</span><small>lbs</small></div></div>
+          <div><div class="tf-stat-label">Body Fat</div><div class="tf-stat-val" data-countup="-19.6"><span>0</span><small>%</small></div></div>
+        </div>
+        <div class="tf-meta">
+          <span><strong data-countup="333">0</strong> Classes Attended</span>
+          <span><strong>44%</strong> → 24.4% BF</span>
+          <span><strong>9 mo</strong> Tenure</span>
+        </div>
+        <div class="tf-milestones">
+          <div class="tf-milestone">Lifestyle/Nutrition + CrossFit combo</div>
+          <div class="tf-milestone">333 all-time class check-ins</div>
+          <div class="tf-milestone">Body fat cut nearly in half</div>
+          <div class="tf-milestone">Committed Club every month since joining</div>
+        </div>
+        <p class="tf-quote">"The number on the scale was never the point. The InBody told me the truth — and CrossFit OTL gave me the plan to change it."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRAME 5 — TRANSFORMATION 2 ================= -->
+<section class="frame bg-navy-flat" data-chapter="proof" data-title="Tanner D. · +7.9 lbs Muscle">
+  <div class="frame-inner">
+    <div class="tf-layout">
+      <div class="tf-photo" style="background:none">
+        <img src="assets/member-tanner-duff.jpg" alt="Tanner Duff" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block">
+      </div>
+      <div class="tf-data">
+        <div class="tf-name-row">
+          <div class="tf-name">TANNER D.</div>
+          <div class="tf-tenure">· 13 Months at CrossFit OTL</div>
+        </div>
+        <div class="tf-cc-badge">Committed Club · <span class="num">13</span> Month Streak</div>
+        <div class="tf-headline" data-countup="-45.4" data-suffix=" LBS FAT LOST">0 LBS FAT LOST</div>
+        <div class="tf-grid">
+          <div><div class="tf-stat-label">Fat Lost</div><div class="tf-stat-val" data-countup="-45.4"><span>0</span><small>lbs</small></div></div>
+          <div><div class="tf-stat-label">Muscle Gained</div><div class="tf-stat-val" data-countup="7.9"><span>0</span><small>lbs</small></div></div>
+          <div><div class="tf-stat-label">Body Fat</div><div class="tf-stat-val" data-countup="-12.2"><span>0</span><small>%</small></div></div>
+        </div>
+        <div class="tf-meta">
+          <span><strong data-countup="213">0</strong> Classes Attended</span>
+          <span><strong>37%</strong> → 24.8% BF</span>
+          <span><strong>13 mo</strong> Tenure</span>
+        </div>
+        <div class="tf-milestones">
+          <div class="tf-milestone">Lifestyle/Nutrition program</div>
+          <div class="tf-milestone">Lost fat while building muscle simultaneously</div>
+          <div class="tf-milestone">213 all-time class check-ins</div>
+          <div class="tf-milestone">Top recomposition result in gym history</div>
+        </div>
+        <p class="tf-quote">"I wasn't just trying to lose weight. I wanted to actually get stronger. The nutrition coaching and the workouts did both at the same time."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRAME 6 — TRANSFORMATION 3 ================= -->
+<section class="frame bg-navy" data-chapter="proof" data-title="Cherie M. · 594 Check-ins">
+  <div class="frame-inner">
+    <div class="tf-layout">
+      <div class="tf-photo" style="background:none">
+        <img src="assets/member-cherie-martin.jpg" alt="Cherie Martin" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block">
+      </div>
+      <div class="tf-data">
+        <div class="tf-name-row">
+          <div class="tf-name">CHERIE M.</div>
+          <div class="tf-tenure">· 17 Months at CrossFit OTL</div>
+        </div>
+        <div class="tf-cc-badge">Committed Club · <span class="num">17</span> Month Streak</div>
+        <div class="tf-headline" data-countup="-44.6" data-suffix=" LBS FAT LOST">0 LBS FAT LOST</div>
+        <div class="tf-grid">
+          <div><div class="tf-stat-label">Fat Lost</div><div class="tf-stat-val" data-countup="-44.6"><span>0</span><small>lbs</small></div></div>
+          <div><div class="tf-stat-label">Muscle Maintained</div><div class="tf-stat-val"><span>~0</span><small>change</small></div></div>
+          <div><div class="tf-stat-label">Body Fat</div><div class="tf-stat-val" data-countup="-19.2"><span>0</span><small>%</small></div></div>
+        </div>
+        <div class="tf-meta">
+          <span><strong data-countup="594">0</strong> Classes Attended</span>
+          <span><strong>42.6%</strong> → 23.4% BF</span>
+          <span><strong>17 mo</strong> Tenure</span>
+        </div>
+        <div class="tf-milestones">
+          <div class="tf-milestone">CrossFit Unlimited — never missed a month</div>
+          <div class="tf-milestone">594 all-time check-ins (avg 35/month)</div>
+          <div class="tf-milestone">Maintained all muscle while losing 44.6 lbs of fat</div>
+          <div class="tf-milestone">Most consistent member in gym history</div>
+        </div>
+        <p class="tf-quote">"I don't miss. That's the whole strategy. Show up enough times and the body has no choice but to change."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRAME 8 — SERVICES INTRO ================= -->
+<section class="frame bg-navy" data-chapter="services" data-title="Services Overview">
+  <div class="frame-inner">
+    <div class="si-wrap">
+      <div class="label white">Our Services</div>
+      <h2 class="svc-product" style="color:var(--white);margin-bottom:10px">FIVE SERVICES</h2>
+      <div class="svc-tagline" style="margin-bottom:24px">Each One Does a Specific Job.</div>
+      <p class="body" style="max-width:640px;margin:0 auto">You're about to see them one at a time — then how we've assembled them into one program.</p>
+      <div class="si-chips">
+        <div class="si-chip"><span class="num">01</span>InBody</div>
+        <div class="si-chip"><span class="num">02</span>1:1 PT &amp; On-Ramp</div>
+        <div class="si-chip"><span class="num">03</span>Group Classes</div>
+        <div class="si-chip"><span class="num">04</span>Nutrition Coaching</div>
+        <div class="si-chip"><span class="num">05</span>The App</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRAME 9 — SERVICE 1: INBODY ================= -->
+<section class="frame bg-white" data-chapter="services" data-title="01 · InBody Scans" data-light>
+  <div class="frame-inner">
+    <div class="svc-layout">
+      <div class="svc-visual light" style="padding:0;overflow:hidden;border-radius:20px">
+        <img src="assets/inbody-machine.png" alt="InBody Scanner" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;border-radius:20px">
+      </div>
+      <div class="svc-content">
+        <div class="label">Service 01</div>
+        <h2 class="svc-product" style="color:var(--navy-dark)">BODY COMPOSITION</h2>
+        <div class="svc-tagline">The Truth Mirror.</div>
+        <p class="svc-body" style="color:#333">The scale lies. The InBody doesn't. It measures lean mass, fat mass, visceral fat, and water distribution — the metrics that actually predict how your body performs and ages.</p>
+        <ul class="svc-checks">
+          <li>See fat vs. muscle — not just weight</li>
+          <li>Scans every 4 weeks during the Reset (4 total)</li>
+          <li>Your first scan is free in the consultation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRAME 10 — SERVICE 2: 1:1 PT / ON-RAMP ================= -->
+<section class="frame bg-navy" data-chapter="services" data-title="02 · Personal Training">
+  <div class="frame-inner">
+    <div class="svc-layout">
+      <div class="svc-content on-dark">
+        <div class="label">Service 02</div>
+        <h2 class="svc-product">1:1 PERSONAL TRAINING</h2>
+        <div class="svc-tagline">Technique Before Intensity.</div>
+        <p class="svc-body">Required for every first-timer. No exceptions. You can't scale what isn't built right. 3 on-ramp sessions minimum, then 1:1 as needed.</p>
+        <ul class="svc-checks">
+          <li>Movement assessment and on-ramp</li>
+          <li>Benchmark testing</li>
+          <li>Skills development — the foundation for everything else</li>
+        </ul>
+      </div>
+      <div class="svc-visual" style="padding:0;overflow:hidden;border-radius:20px">
+        <img src="assets/personal-training.jpg" alt="1:1 Personal Training" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;border-radius:20px">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRAME 11 — SERVICE 3: GROUP CLASSES ================= -->
+<section class="frame bg-navy-flat" data-chapter="services" data-title="03 · Group Classes">
+  <div class="frame-inner">
+    <div class="svc-layout">
+      <div class="svc-visual" style="padding:0;overflow:hidden;border-radius:20px">
+        <img src="assets/group-class.jpg" alt="CrossFit OTL Group Class" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;border-radius:20px">
+      </div>
+      <div class="svc-content on-dark">
+        <div class="label">Service 03</div>
+        <h2 class="svc-product">GROUP CLASSES</h2>
+        <div class="svc-tagline">The Engine.</div>
+        <p class="svc-body">35+ classes weekly. Morning and evening, daily. Four things happening simultaneously, every hour:</p>
+        <div class="group-tiles">
+          <div class="group-tile">
+            <div class="group-tile-num">01</div>
+            <div class="group-tile-name">COMMUNITY</div>
+            <div class="group-tile-desc">You show up because they expect you.</div>
+          </div>
+          <div class="group-tile">
+            <div class="group-tile-num">02</div>
+            <div class="group-tile-name">COACHING</div>
+            <div class="group-tile-desc">A coach on the floor, every class.</div>
+          </div>
+          <div class="group-tile">
+            <div class="group-tile-num">03</div>
+            <div class="group-tile-name">ACCOUNTABILITY</div>
+            <div class="group-tile-desc">We notice when you're not here.</div>
+          </div>
+          <div class="group-tile">
+            <div class="group-tile-num">04</div>
+            <div class="group-tile-name">PROGRAMMING</div>
+            <div class="group-tile-desc">Already figured out. You just show up.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRAME 12 — SERVICE 4: NUTRITION ================= -->
+<section class="frame bg-white" data-chapter="services" data-title="04 · Nutrition Coaching" data-light>
+  <div class="frame-inner">
+    <div class="svc-layout">
+      <div class="svc-content">
+        <div class="label">Service 04</div>
+        <h2 class="svc-product" style="color:var(--navy-dark)">LIFESTYLE &amp; NUTRITION</h2>
+        <div class="svc-tagline">The Other 23 Hours.</div>
+        <p class="svc-body" style="color:#333">The gym is 1 hour. What happens outside is what moves the needle. Habit-based. Coach-supported. Tracked in your app.</p>
+        <ul class="svc-checks">
+          <li>1-hour consultation with your lifestyle coach</li>
+          <li>3 coach check-ins every 4 weeks</li>
+          <li>InBody body composition scan every 4 weeks — results live in your app</li>
+          <li>Two-way coach engagement through the app, not just a log</li>
+          <li>Apple Health integration — steps and calories captured automatically</li>
+        </ul>
+      </div>
+      <div class="svc-visual light" style="padding:0;overflow:hidden;border-radius:20px">
+        <img src="assets/lifestyle-nutrition.jpg" alt="Lifestyle & Nutrition Coaching" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;border-radius:20px">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRAME 13 — THE APPS ================= -->
+<section class="frame bg-navy-flat" data-chapter="services" data-title="05 · The Apps">
+  <div class="frame-inner">
+    <div class="app-wrap">
+      <div class="app-header">
+        <div class="label">Service 05</div>
+        <h2 class="svc-product" style="color:var(--white);margin-bottom:10px">YOUR TECH STACK</h2>
+        <div class="svc-tagline" style="margin-bottom:20px">Two Apps. Two Jobs. One Coaching Loop.</div>
+        <p class="body" style="max-width:720px;margin:0 auto"><strong style="color:var(--white)">PushPress</strong> runs the gym — class booking, attendance, the Committed Club streak.<br><strong style="color:var(--white)">On The Line Fitness</strong> (powered by Trainerize) is the two-way coaching platform — your food, your steps, your InBody, your progress. Your coach sees it all and engages back.</p>
+      </div>
+      <div class="app-phones">
+
+        <!-- Phone 1 — PushPress Committed Club -->
+        <div>
+          <div class="phone-mock">
+            <div class="phone-app-badge">PushPress</div>
+            <div class="phone-screen">
+              <img src="assets/app-pushpress-committed-club.png" alt="PushPress · OTL Committed Club · 15-month streak" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=&quot;phone-placeholder&quot;><strong>PushPress</strong>OTL Committed Club<br>15-month streak<br>12 of 15 check-ins<br><br>DROP:<br>assets/app-pushpress-committed-club.png</div>'">
+            </div>
+          </div>
+          <div class="phone-caption">
+            <div class="phone-caption-label">PushPress · Gym Operations</div>
+            <div class="phone-caption-title">COMMITTED CLUB</div>
+            <div class="phone-caption-desc">Class booking, check-ins, and streak tracking. 15 months. 12 of 15 check-ins. Your consistency made visible.</div>
+          </div>
+        </div>
+
+        <!-- Phone 2 — Trainerize Meal Plan -->
+        <div>
+          <div class="phone-mock">
+            <div class="phone-app-badge">On The Line Fitness</div>
+            <div class="phone-screen">
+              <img src="assets/app-otl-meal-plan.png" alt="On The Line Fitness · 6-day meal plan" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=&quot;phone-placeholder&quot;><strong>OTL Lifestyle</strong>Meal Plan<br>Day 1–6 rotation<br>2,982 cal / day<br><br>DROP:<br>assets/app-otl-meal-plan.png</div>'">
+            </div>
+          </div>
+          <div class="phone-caption">
+            <div class="phone-caption-label">OTL Lifestyle · Nutrition</div>
+            <div class="phone-caption-title">6-DAY MEAL PLAN</div>
+            <div class="phone-caption-desc">Real recipes. Real portions. High-protein. Built around what you'll actually eat — not a diet you'll quit.</div>
+          </div>
+        </div>
+
+        <!-- Phone 3 — Trainerize Food Log -->
+        <div>
+          <div class="phone-mock">
+            <div class="phone-app-badge">On The Line Fitness</div>
+            <div class="phone-screen">
+              <img src="assets/app-otl-food-log.png" alt="On The Line Fitness · food tracking" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=&quot;phone-placeholder&quot;><strong>OTL Lifestyle</strong>Food Logging<br>Search · Scan · Favorites<br>Coach has visibility<br><br>DROP:<br>assets/app-otl-food-log.png</div>'">
+            </div>
+          </div>
+          <div class="phone-caption">
+            <div class="phone-caption-label">OTL Lifestyle · Two-Way Coaching</div>
+            <div class="phone-caption-title">LOG, TRACK, ENGAGE</div>
+            <div class="phone-caption-desc">Food search, barcode, or Apple Health auto-capture. InBody results land here. Your coach reviews and engages back in-app.</div>
+          </div>
+        </div>
+
+      </div>
+      <p class="app-footnote">Both apps included · iOS &amp; Android · Apple Health integration · Two-way coach engagement · Member login provided day one</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRAME 14 — BUNDLE INTRO ================= -->
+<section class="frame bg-navy" data-chapter="program" data-title="The Program">
+  <div class="frame-inner">
+    <div class="bi-wrap">
+      <div class="label white">Next</div>
+      <h2 class="svc-product" style="color:var(--white);margin-bottom:10px">THE PROGRAM</h2>
+      <div class="svc-tagline" style="margin-bottom:24px">We've Already Assembled It.</div>
+      <p class="body" style="max-width:600px;margin:0 auto;font-size:clamp(16px,1.5vw,20px)">You just saw five services. Here's how we've put them together into one program.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRAME 14 — VALUE STACK ================= -->
+<section class="frame bg-navy-flat" data-chapter="program" data-title="Value Stack">
+  <div class="frame-inner">
+    <div class="vs-wrap">
+      <div class="vs-header">
+        <div class="label white">Our Flagship Program</div>
+        <h2 class="svc-product" style="color:var(--white);margin-bottom:8px;font-size:clamp(38px,5vw,64px)">THE 12-WEEK LIFESTYLE RESET</h2>
+        <div class="svc-tagline" style="margin-bottom:14px;font-size:clamp(18px,2vw,24px)">Pillars of Total Transformation.</div>
+        <p class="small" style="color:rgba(255,255,255,0.6);max-width:620px;margin:0 auto">The kitchen sink by design. Every reason a person normally quits — removed.</p>
+      </div>
+      <div class="vs-stack">
+        <div class="vs-row">
+          <div class="vs-row-left">
+            <div class="vs-row-num">01</div>
+            <div>
+              <div class="vs-row-name">Expert-Led Personal Training</div>
+              <div class="vs-row-detail">12 PT sessions — 3 on-ramp + 9 one-on-one</div>
+            </div>
+          </div>
+          <div class="vs-row-price">$1,008</div>
+        </div>
+        <div class="vs-row">
+          <div class="vs-row-left">
+            <div class="vs-row-num">02</div>
+            <div>
+              <div class="vs-row-name">Strategic Group Training</div>
+              <div class="vs-row-detail">12 weeks unlimited — 35+ classes per week</div>
+            </div>
+          </div>
+          <div class="vs-row-price">$540</div>
+        </div>
+        <div class="vs-row">
+          <div class="vs-row-left">
+            <div class="vs-row-num">03</div>
+            <div>
+              <div class="vs-row-name">Body Composition Tracking</div>
+              <div class="vs-row-detail">InBody scan every 4 weeks · 4 scans total</div>
+            </div>
+          </div>
+          <div class="vs-row-price">$140</div>
+        </div>
+        <div class="vs-row">
+          <div class="vs-row-left">
+            <div class="vs-row-num">04</div>
+            <div>
+              <div class="vs-row-name">Lifestyle &amp; Nutrition Coaching</div>
+              <div class="vs-row-detail">1-hr lifestyle consult + 3 coach check-ins every 4 weeks</div>
+            </div>
+          </div>
+          <div class="vs-row-price">$597</div>
+        </div>
+        <div class="vs-row">
+          <div class="vs-row-left">
+            <div class="vs-row-num">05</div>
+            <div>
+              <div class="vs-row-name">Accountability &amp; Committed Club</div>
+              <div class="vs-row-detail">Tracking app + attendance tracking + dedicated coach</div>
+            </div>
+          </div>
+          <div class="vs-row-included">INCLUDED</div>
+        </div>
+      </div>
+      <div class="vs-total">
+        <div class="vs-total-label">Total Retail Value</div>
+        <div class="vs-total-amt">$2,285</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRAME 15 — REVEAL 1 ================= -->
+<section class="frame bg-black" data-chapter="program" data-title="Retail $2,285">
+  <div class="frame-inner">
+    <div class="reveal-big">
+      <div class="reveal-caption">If purchased separately</div>
+      <div class="reveal-1-num" data-countup="2285" data-prefix="$" data-commas>$0</div>
+      <p class="reveal-1-sub">The retail cost of every service, purchased on its own.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRAME 16 — REVEAL 2 ================= -->
+<section class="frame bg-navy-flat" data-chapter="program" data-title="Your Price $1,420" id="f16">
+  <div class="frame-inner">
+    <div class="reveal-2-wrap">
+      <div class="reveal-2-old">$2,285</div>
+      <div class="reveal-caption">Your Program Price</div>
+      <div class="reveal-2-num" data-countup="1420" data-countfrom="2285" data-prefix="$" data-commas>$2,285</div>
+      <div class="reveal-2-badge">✦ Save $865 — 39% Off</div>
+      <p class="reveal-2-sub">Pay in full today. One payment. Done.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRAME 17 — REVEAL 3 (INSTALLMENTS) ================= -->
+<section class="frame bg-navy" data-chapter="program" data-title="Installments 3×$500">
+  <div class="frame-inner">
+    <div class="reveal-3-wrap">
+      <div class="reveal-3-dim">
+        <span>$2,285</span>
+        <span>$1,420</span>
+      </div>
+      <div class="reveal-3-label">Or</div>
+      <h2 class="svc-product" style="color:var(--white);margin-bottom:10px">FLEXIBLE INSTALLMENTS</h2>
+      <div class="svc-tagline" style="margin-bottom:36px">3 Payments · Every 4 Weeks.</div>
+      <div class="install-row">
+        <div class="install-card">
+          <div class="install-month">Month 1</div>
+          <div class="install-amt">$500</div>
+          <div class="install-note">Foundation</div>
+        </div>
+        <div class="install-card">
+          <div class="install-month">Month 2</div>
+          <div class="install-amt">$500</div>
+          <div class="install-note">Build &amp; Track</div>
+        </div>
+        <div class="install-card">
+          <div class="install-month">Month 3</div>
+          <div class="install-amt">$500</div>
+          <div class="install-note">Lock In Results</div>
+        </div>
+      </div>
+      <div class="install-sum">
+        <div class="install-sum-top">Total <span>$1,500</span></div>
+        <div class="install-sum-small"><strong>Still saves $785 off retail.</strong> All installments required in full — no skipping, no pausing. Same program.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRAME 18 — YOUTH PROGRAM (for your family) ================= -->
+<section class="frame bg-navy" data-chapter="program" data-title="Youth Program">
+  <div class="frame-inner">
+    <div class="youth-hero">
+      <div class="label gold">For Your Family</div>
+      <h2 class="svc-product" style="color:var(--white);margin-bottom:10px">THE YOUTH PROGRAM</h2>
+      <div class="svc-tagline" style="color:var(--gold);margin-bottom:20px">Built for Ages 5 to 18.</div>
+      <p class="youth-subline">CrossFit OTL is a GPP gym for the whole arc of a human life. The youth program isn't a side offering — it's part of the mission.</p>
+      <div class="youth-pillar">
+        <div class="youth-pillar-icon">◆</div>
+        <div class="youth-pillar-txt"><strong>Same room. Same time.</strong> Youth and adult classes run concurrently by design. Children watch their parents on the line. Parents watch their children under the same standard. The schedule is architecture, not convenience.</div>
+      </div>
+    </div>
+    <div class="youth-grid">
+      <div class="youth-card">
+        <div class="youth-card-tier">Tier 01</div>
+        <div class="youth-card-age">KIDS</div>
+        <div class="youth-card-range">Ages 5 – 11</div>
+        <div class="youth-card-schedule"><strong>Schedule</strong>Tuesday &amp; Thursday · 4:00 PM</div>
+        <div class="youth-price-rows">
+          <div class="youth-price-row-i">
+            <span>Classes</span>
+            <span class="amt">$95<small>/4 wk</small></span>
+          </div>
+        </div>
+      </div>
+      <div class="youth-card">
+        <div class="youth-card-tier">Tier 02</div>
+        <div class="youth-card-age">TEENS</div>
+        <div class="youth-card-range">Ages 12 – 15</div>
+        <div class="youth-card-schedule"><strong>Schedule</strong>Mon · Tue · Thu · 5:30 PM</div>
+        <div class="youth-price-rows">
+          <div class="youth-price-row-i">
+            <span>Classes</span>
+            <span class="amt">$115<small>/4 wk</small></span>
+          </div>
+        </div>
+      </div>
+      <div class="youth-card">
+        <div class="youth-card-tier">Tier 03 · Bridge to Adult</div>
+        <div class="youth-card-age">TEENS</div>
+        <div class="youth-card-range">Ages 16 – 18</div>
+        <div class="youth-card-schedule"><strong>Schedule</strong>Teen block + adult classes w/ coach approval</div>
+        <div class="youth-price-rows">
+          <div class="youth-price-row-i">
+            <span>3 days / week</span>
+            <span class="amt">$125<small>/4 wk</small></span>
+          </div>
+          <div class="youth-price-row-i">
+            <span>Unlimited</span>
+            <span class="amt">$140<small>/4 wk</small></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="youth-note">Coached by Isabel Jaime — CrossFit Kids specialist. Earned her L1 certification at 17 on the first attempt.</p>
+  </div>
+</section>
+
+<!-- ================= FRAME 19 — COMMITTED CLUB ================= -->
+<section class="frame bg-black" data-chapter="standard" data-title="The Committed Club">
+  <div class="frame-inner">
+    <div class="cc-layout">
+      <div class="cc-badge">
+        <div>
+          <div class="cc-badge-num">15</div>
+          <span class="cc-badge-label">Classes / Month</span>
+        </div>
+      </div>
+      <div class="cc-content">
+        <div class="label gold">The Standard</div>
+        <h2 class="svc-product" style="color:var(--white);margin-bottom:10px">THE COMMITTED CLUB</h2>
+        <div class="svc-tagline" style="color:var(--gold);margin-bottom:24px">15 Classes a Month. Minimum.</div>
+        <p class="cc-quote">"The members with the longest streaks — 18 to 20+ classes a month across multiple months — are the biggest life changers. Not because of the badge. Because they showed up when it was hard and didn't stop."</p>
+      </div>
+    </div>
+
+    <div class="cc-callback">
+      <div class="cc-callback-label">The transformations you just met? <strong>They live here.</strong></div>
+      <div class="cc-member-row">
+        <div class="cc-mini">
+          <div class="cc-mini-name">SARAH M.</div>
+          <div class="cc-mini-streak">12<small>mo</small></div>
+        </div>
+        <div class="cc-mini">
+          <div class="cc-mini-name">MIKE R.</div>
+          <div class="cc-mini-streak">18<small>mo</small></div>
+        </div>
+        <div class="cc-mini">
+          <div class="cc-mini-name">JEN T.</div>
+          <div class="cc-mini-streak">8<small>mo</small></div>
+        </div>
+        <div class="cc-mini">
+          <div class="cc-mini-name">DAVE K.</div>
+          <div class="cc-mini-streak">22<small>mo</small></div>
+        </div>
+      </div>
+      <p class="small" style="color:rgba(255,255,255,0.4);margin-top:20px;font-style:italic">Every member in the Proof section is a top-of-club streaker. The results aren't random.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRAME 20 — À LA CARTE ================= -->
+<section class="frame bg-grey" data-chapter="standard" data-title="À La Carte Pricing" data-light>
+  <div class="frame-inner">
+    <div class="ala-wrap">
+      <div class="ala-header">
+        <div class="label">Alternative</div>
+        <h2 class="svc-product" style="color:var(--navy-dark);margin-bottom:10px">À LA CARTE PRICING</h2>
+        <div class="svc-tagline">If the Bundle Isn't for You.</div>
+        <p class="small" style="color:var(--grey);margin-top:14px">Standalone pricing for each piece, billed every 4 weeks unless noted.</p>
+      </div>
+      <div class="ala-grid">
+        <div class="ala-card">
+          <div class="ala-card-title">On-Ramp</div>
+          <div class="ala-row"><div class="ala-row-label">1 Week</div><div class="ala-row-price">$270</div></div>
+          <div class="ala-row"><div class="ala-row-label">2 Weeks</div><div class="ala-row-price">$529</div></div>
+          <div class="ala-row"><div class="ala-row-label">3 Weeks</div><div class="ala-row-price">$1,008</div></div>
+        </div>
+        <div class="ala-card">
+          <div class="ala-card-title">Personal Training</div>
+          <div class="ala-row"><div class="ala-row-label">4 Sessions</div><div class="ala-row-price">$360</div></div>
+          <div class="ala-row"><div class="ala-row-label">8 Sessions</div><div class="ala-row-price">$688</div></div>
+          <div class="ala-row"><div class="ala-row-label">12 Sessions</div><div class="ala-row-price">$1,008</div></div>
+          <div class="ala-row"><div class="ala-row-label">16 Sessions</div><div class="ala-row-price">$1,312</div></div>
+        </div>
+        <div class="ala-card">
+          <div class="ala-card-title">Group Classes</div>
+          <div class="ala-row"><div class="ala-row-label">Unlimited</div><div class="ala-row-price">$180</div></div>
+          <div class="ala-row"><div class="ala-row-label">3/Week Flex</div><div class="ala-row-price">$145</div></div>
+        </div>
+        <div class="ala-card">
+          <div class="ala-card-title">Ongoing Nutrition</div>
+          <div class="ala-row"><div class="ala-row-label">Habit-Based Support</div><div class="ala-row-price">$145</div></div>
+          <div style="font-size:11px;color:var(--grey);margin-top:10px;line-height:1.6">
+            Post-Reset retention program. No onboarding consultation — you're past that. Includes:<br>
+            · 1 coach check-in every 4 weeks<br>
+            · InBody scan every 4 weeks<br>
+            · Continued access to the On The Line Fitness app<br>
+            · Meal plans, food logging, habit &amp; step tracking
+          </div>
+        </div>
+        <div class="ala-card">
+          <div class="ala-card-title">Youth Program</div>
+          <div class="ala-row"><div class="ala-row-label">See dedicated section</div><div class="ala-row-price" style="font-size:13px;font-family:Inter;font-weight:600;color:var(--accent)">Ages 5–18</div></div>
+          <div style="font-size:11px;color:var(--grey);margin-top:6px;font-style:italic">Kids $95 · Teens $115–$140 per 4 weeks.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRAME 20 — FINAL CTA ================= -->
+<section class="frame" id="f21" data-chapter="close" data-title="Start Your Reset">
+  <div class="frame-inner">
+    <div class="close-wrap">
+      <div class="pulse-badge"><span class="dot-live"></span>Ready When You Are</div>
+      <h2 class="close-title bebas">ARE YOU<br><span>ON THE LINE?</span></h2>
+      <p class="close-sub">Let's start with a free consult and InBody scan at CrossFit OTL. 45 minutes. No pressure. You leave with clarity either way.</p>
+      <div class="close-buttons">
+        <a href="mailto:javier@onthelinefitness.com?subject=Ready%20to%20Start%20My%20Reset" class="btn-big btn-red">Start My Reset</a>
+        <a href="mailto:javier@onthelinefitness.com?subject=Free%20Consult%20%2B%20InBody%20Scan" class="btn-big btn-ghost">Book Free Consult</a>
+      </div>
+      <p class="close-contact">
+        <a href="mailto:javier@onthelinefitness.com">javier@onthelinefitness.com</a>
+        &nbsp;·&nbsp;
+        <a href="https://crossfitotl.com">crossfitotl.com</a>
+        &nbsp;·&nbsp;
+        North Richland Hills, TX
+      </p>
+      <p class="close-contact" style="margin-top:12px;font-size:10px;letter-spacing:0.2em">
+        CROSSFIT OTL · A CROSSFIT AFFILIATE OF ON THE LINE FITNESS · FIT4 ASSOCIATES INC.
+      </p>
+    </div>
+  </div>
+</section>
+
+</div><!-- /stage -->
+
+<script>
+(function(){
+  const frames = document.querySelectorAll('.frame');
+  const total = frames.length;
+  let current = 0;
+  let visited = new Set([0]);
+
+  // Chapter label map (data-chapter → display name)
+  const chapterLabels = {
+    'welcome':   'Welcome',
+    'proof':     'Proof',
+    'services':  'Services',
+    'program':   'Program',
+    'standard':  'Standard',
+    'close':     'Close'
+  };
+
+  // Group frames by chapter (preserving order)
+  const chapterOrder = [];
+  const chapterMap = {};
+  frames.forEach((f, i) => {
+    const ch = f.dataset.chapter || 'misc';
+    if (!chapterMap[ch]) { chapterMap[ch] = []; chapterOrder.push(ch); }
+    chapterMap[ch].push(i);
+  });
+
+  // Build chapter nav bar
+  const chapterNav = document.getElementById('chapter-nav');
+  chapterOrder.forEach(ch => {
+    const btn = document.createElement('div');
+    btn.className = 'ch-btn';
+    btn.dataset.chapter = ch;
+    const label = document.createElement('span');
+    label.textContent = chapterLabels[ch] || ch;
+    const dotsWrap = document.createElement('div');
+    dotsWrap.className = 'ch-btn-dots';
+    chapterMap[ch].forEach(i => {
+      const d = document.createElement('span');
+      d.className = 'ch-btn-dot';
+      d.dataset.index = i;
+      dotsWrap.appendChild(d);
+    });
+    btn.appendChild(label);
+    btn.appendChild(dotsWrap);
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      // Jump to first frame of this chapter
+      goTo(chapterMap[ch][0]);
+    });
+    chapterNav.appendChild(btn);
+  });
+
+  // Build index overlay
+  const indexBody = document.getElementById('index-body');
+  chapterOrder.forEach(ch => {
+    const chDiv = document.createElement('div');
+    chDiv.className = 'index-chapter';
+    const chTitle = document.createElement('div');
+    chTitle.className = 'index-ch-title';
+    chTitle.textContent = chapterLabels[ch] || ch;
+    chDiv.appendChild(chTitle);
+    const items = document.createElement('div');
+    items.className = 'index-items';
+    chapterMap[ch].forEach(i => {
+      const item = document.createElement('div');
+      item.className = 'index-item';
+      item.dataset.index = i;
+      const num = String(i + 1).padStart(2,'0');
+      item.innerHTML = '<div class="index-item-num">' + num + '</div><div class="index-item-title">' + (frames[i].dataset.title || 'Untitled') + '</div>';
+      item.addEventListener('click', e => {
+        e.stopPropagation();
+        goTo(i);
+        closeMenu();
+      });
+      items.appendChild(item);
+    });
+    chDiv.appendChild(items);
+    indexBody.appendChild(chDiv);
+  });
+
+  document.getElementById('fc-total').textContent = String(total).padStart(2,'0');
+
+  // Menu toggle
+  function openMenu(){ document.body.classList.add('menu-open'); }
+  function closeMenu(){ document.body.classList.remove('menu-open'); }
+  function toggleMenu(){ document.body.classList.toggle('menu-open'); }
+  document.getElementById('menu-btn').addEventListener('click', e => { e.stopPropagation(); toggleMenu(); });
+  document.getElementById('index-overlay').addEventListener('click', e => {
+    if (e.target.id === 'index-overlay' || e.target.classList.contains('index-wrap')) closeMenu();
+  });
+
+  function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+  function countUp(el){
+    if (el.dataset.counted) return;
+    el.dataset.counted = '1';
+    const target = parseFloat(el.dataset.countup);
+    const from = el.dataset.countfrom !== undefined ? parseFloat(el.dataset.countfrom) : 0;
+    const prefix = el.dataset.prefix || '';
+    const suffix = el.dataset.suffix || '';
+    const commas = el.hasAttribute('data-commas');
+    const spanChild = el.querySelector('span');
+    const isBigReveal = el.classList.contains('reveal-1-num') || el.classList.contains('reveal-2-num');
+    const duration = isBigReveal ? 2000 : 1400;
+    const start = performance.now();
+
+    // Show initial value immediately so the animation has a clear starting state
+    (function setInitial(){
+      const absFrom = Math.abs(from);
+      const sign = from < 0 ? '-' : '';
+      const formatted = commas ? absFrom.toLocaleString() : String(absFrom);
+      const displayed = sign + formatted;
+      const out = prefix + displayed + suffix;
+      if (spanChild) spanChild.textContent = displayed;
+      else el.textContent = out;
+    })();
+
+    function tick(now){
+      const t = Math.min(1, (now - start) / duration);
+      const raw = from + (target - from) * easeOutCubic(t);
+      const val = Math.round(raw);
+      const absVal = Math.abs(val);
+      const sign = val < 0 ? '-' : '';
+      const formatted = commas ? absVal.toLocaleString() : String(absVal);
+      const displayed = sign + formatted;
+      const out = prefix + displayed + suffix;
+      if (spanChild) spanChild.textContent = displayed;
+      else el.textContent = out;
+      if (t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function updateChrome(){
+    // progress bar
+    document.getElementById('progress-bar').style.width = ((current + 1) / total * 100) + '%';
+
+    // chapter nav state
+    const activeFrame = frames[current];
+    const activeCh = activeFrame.dataset.chapter;
+    document.querySelectorAll('.ch-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.chapter === activeCh);
+    });
+    document.querySelectorAll('.ch-btn-dot').forEach(d => {
+      const i = parseInt(d.dataset.index);
+      d.classList.toggle('current', i === current);
+      d.classList.toggle('visited', visited.has(i) && i !== current);
+    });
+
+    // index overlay state
+    document.querySelectorAll('.index-item').forEach(it => {
+      it.classList.toggle('current', parseInt(it.dataset.index) === current);
+    });
+
+    // counter
+    document.getElementById('fc-cur').textContent = String(current + 1).padStart(2,'0');
+
+    // light chrome
+    const isLight = activeFrame.hasAttribute('data-light');
+    document.body.classList.toggle('light-chrome', isLight);
+
+    // button states
+    document.getElementById('btn-prev').style.opacity = current === 0 ? '0.3' : '1';
+    document.getElementById('btn-prev').style.pointerEvents = current === 0 ? 'none' : 'auto';
+    document.getElementById('btn-next').innerHTML = current === total - 1 ? 'Done' : 'Continue →';
+  }
+
+  function goTo(i){
+    if (i < 0 || i >= total) return;
+    frames[current].classList.remove('active');
+    current = i;
+    visited.add(i);
+    frames[current].classList.add('active');
+    updateChrome();
+    // trigger count-ups in the new frame — delay so frame fade-in completes first
+    const activeFrameEl = frames[current];
+    const hasBigReveal = activeFrameEl.querySelector('.reveal-1-num, .reveal-2-num');
+    const countDelay = hasBigReveal ? 750 : 500;
+    setTimeout(() => {
+      activeFrameEl.querySelectorAll('[data-countup]').forEach(el => {
+        el.dataset.counted = '';
+        const span = el.querySelector('span');
+        if (span) span.textContent = '0';
+        countUp(el);
+      });
+    }, countDelay);
+  }
+
+  function next(){ if (current < total - 1) goTo(current + 1); }
+  function prev(){ if (current > 0) goTo(current - 1); }
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if (document.body.classList.contains('menu-open')){
+      if (e.key === 'Escape' || e.key === 'm' || e.key === 'M'){ e.preventDefault(); closeMenu(); }
+      return;
+    }
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown'){ e.preventDefault(); next(); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); prev(); }
+    else if (e.key === 'Escape') goTo(0);
+    else if (e.key === 'm' || e.key === 'M'){ e.preventDefault(); openMenu(); }
+    else if (e.key === 'Home') goTo(0);
+    else if (e.key === 'End') goTo(total - 1);
+  });
+
+  // Click anywhere (except interactive)
+  document.addEventListener('click', e => {
+    if (document.body.classList.contains('menu-open')) return;
+    if (e.target.closest('a, button, .q-item, .ch-btn, .ch-btn-dot, .ctrl-btn, .all-checked-cta, #menu-btn, .index-item, #index-overlay')) return;
+    next();
+  });
+
+  // Control buttons
+  document.getElementById('btn-next').addEventListener('click', e => { e.stopPropagation(); next(); });
+  document.getElementById('btn-prev').addEventListener('click', e => { e.stopPropagation(); prev(); });
+
+  // Qualify interaction
+  document.querySelectorAll('[data-q]').forEach(q => {
+    q.addEventListener('click', e => {
+      e.stopPropagation();
+      q.classList.toggle('checked');
+      const checkedCount = document.querySelectorAll('.q-item.checked').length;
+      document.getElementById('all-checked').classList.toggle('show', checkedCount === 4);
+    });
+  });
+  document.getElementById('all-checked').addEventListener('click', e => { e.stopPropagation(); next(); });
+
+  // Touch swipe
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive:true});
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].screenX - touchStartX;
+    if (Math.abs(dx) > 60){ if (dx < 0) next(); else prev(); }
+  }, {passive:true});
+
+  // Init
+  frames[0].classList.add('active');
+  updateChrome();
+  setTimeout(() => {
+    frames[0].querySelectorAll('[data-countup]').forEach(el => countUp(el));
+  }, 600);
+})();
+</script>
+</body>
+</html>

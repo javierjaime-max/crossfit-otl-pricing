@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CrossFit OTL · The Blueprint for Fitness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#003566;
+  --navy-dark:#002347;
+  --navy-deep:#001a33;
+  --white:#ffffff;
+  --black:#0a0a0a;
+  --grey:#a4a4a4;
+  --grey-light:#f5f5f7;
+  --accent:#c1272d;
+  --accent-dark:#a01f24;
+  --gold:#f5a623;
+  --green:#34c759;
+  --teal:#00b4b4;
+}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Inter',-apple-system,sans-serif;
+  color:var(--black);
+  background:var(--navy-deep);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  user-select:none;
+  cursor:pointer;
+}
+
+/* ===== FRAME STAGE ===== */
+#stage{position:fixed;inset:0;overflow:hidden}
+.frame{
+  position:absolute;inset:0;
+  opacity:0;visibility:hidden;
+  transition:opacity 0.55s cubic-bezier(0.4,0,0.2,1), visibility 0.55s;
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:88px 60px 80px;overflow:hidden;
+}
+.frame.active{opacity:1;visibility:visible}
+.frame-inner{
+  width:100%;max-width:1200px;
+  margin:auto;position:relative;
+  opacity:0;transform:translateY(16px);
+  transition:opacity 0.75s ease 0.15s, transform 0.75s ease 0.15s;
+}
+.frame.active .frame-inner{opacity:1;transform:translateY(0)}
+
+/* ===== BACKGROUNDS ===== */
+.bg-navy{background:linear-gradient(180deg,var(--navy-dark) 0%,var(--navy-deep) 100%);color:var(--white)}
+.bg-navy-flat{background:var(--navy-dark);color:var(--white)}
+.bg-black{background:#000;color:var(--white)}
+.bg-grey{background:var(--grey-light);color:var(--black)}
+
+/* ===== TYPOGRAPHY ===== */
+.bebas{font-family:'Bebas Neue',sans-serif;letter-spacing:0.01em;line-height:0.95}
+.label{
+  font-size:11px;font-weight:700;letter-spacing:0.16em;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:16px;display:inline-flex;align-items:center;gap:10px;
+}
+.label::before{content:'';width:24px;height:2px;background:currentColor}
+.label.white{color:var(--white);opacity:0.6}
+.label.gold{color:var(--gold)}
+
+.h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,9vw,140px);line-height:0.9;letter-spacing:0.01em}
+.h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(44px,6vw,88px);line-height:0.92}
+.h3{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,4vw,56px);line-height:0.95}
+.body{font-size:clamp(15px,1.3vw,18px);line-height:1.7;opacity:0.82}
+.small{font-size:13px;line-height:1.6;opacity:0.7}
+.accent{color:var(--accent)}
+.gold{color:var(--gold)}
+
+/* ===== CHROME ===== */
+#progress-bar{
+  position:fixed;top:0;left:0;height:3px;background:var(--accent);
+  width:0%;z-index:200;transition:width 0.4s ease;
+}
+#chapter-nav{
+  position:fixed;top:22px;left:50%;transform:translateX(-50%);
+  display:flex;gap:2px;z-index:100;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  backdrop-filter:blur(16px);
+  border-radius:100px;padding:4px;
+}
+.ch-btn{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 16px;border-radius:100px;
+  cursor:pointer;transition:all 0.25s;
+  font-size:10px;font-weight:700;letter-spacing:0.14em;
+  text-transform:uppercase;color:rgba(255,255,255,0.55);
+}
+.ch-btn:hover{color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.05)}
+.ch-btn.active{color:var(--white);background:var(--accent)}
+.ch-btn-dots{display:flex;gap:3px;align-items:center}
+.ch-btn-dot{width:4px;height:4px;border-radius:50%;background:currentColor;opacity:0.4;transition:opacity 0.2s}
+.ch-btn-dot.visited{opacity:0.7}
+.ch-btn-dot.current{opacity:1;width:6px;border-radius:100px}
+.ch-btn.active .ch-btn-dot{opacity:0.75}
+.ch-btn.active .ch-btn-dot.current{opacity:1}
+
+@media(max-width:900px){
+  #chapter-nav{flex-wrap:nowrap;overflow-x:auto;max-width:calc(100vw - 160px);font-size:9px}
+  .ch-btn{padding:6px 10px;font-size:9px;letter-spacing:0.1em}
+  .ch-btn-dots{display:none}
+}
+
+/* ===== MENU BUTTON ===== */
+#menu-btn{
+  position:fixed;top:22px;right:32px;z-index:120;
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.15);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all 0.2s;color:var(--white);
+}
+#menu-btn:hover{background:rgba(255,255,255,0.15)}
+.menu-icon{width:18px;height:14px;position:relative}
+.menu-icon::before,.menu-icon::after,.menu-icon span{
+  content:'';position:absolute;left:0;right:0;height:2px;
+  background:currentColor;border-radius:2px;transition:all 0.25s;
+}
+.menu-icon::before{top:0}
+.menu-icon span{top:50%;margin-top:-1px}
+.menu-icon::after{bottom:0}
+body.menu-open .menu-icon::before{top:50%;margin-top:-1px;transform:rotate(45deg)}
+body.menu-open .menu-icon::after{bottom:50%;margin-bottom:-1px;transform:rotate(-45deg)}
+body.menu-open .menu-icon span{opacity:0}
+
+#index-overlay{
+  position:fixed;inset:0;z-index:110;
+  background:rgba(0,10,25,0.95);backdrop-filter:blur(24px);
+  opacity:0;visibility:hidden;transition:opacity 0.35s ease, visibility 0.35s;
+  overflow-y:auto;padding:100px 60px 60px;
+}
+body.menu-open #index-overlay{opacity:1;visibility:visible}
+.index-wrap{max-width:1100px;margin:0 auto}
+.index-title{font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--white);margin-bottom:6px;letter-spacing:0.02em}
+.index-sub{font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:48px}
+.index-chapter{margin-bottom:40px}
+.index-ch-title{font-size:10px;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.1)}
+.index-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px}
+.index-item{display:flex;align-items:center;gap:16px;padding:14px 18px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);cursor:pointer;transition:all 0.2s}
+.index-item:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.2);transform:translateX(3px)}
+.index-item.current{border-color:var(--accent);background:rgba(193,39,45,0.08)}
+.index-item-num{font-family:'Bebas Neue',sans-serif;font-size:26px;color:rgba(255,255,255,0.4);min-width:34px;line-height:1}
+.index-item.current .index-item-num{color:var(--accent)}
+.index-item-title{font-size:13px;font-weight:600;color:rgba(255,255,255,0.9);letter-spacing:0.02em}
+.index-item.current .index-item-title{color:var(--white)}
+
+#brand-mark{
+  position:fixed;top:24px;left:32px;z-index:100;
+  font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:0.14em;color:var(--white);
+}
+#brand-mark span{color:var(--accent)}
+
+#controls{position:fixed;bottom:24px;right:32px;z-index:100;display:flex;gap:8px;align-items:center}
+.ctrl-btn{
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);
+  color:var(--white);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all 0.2s;font-size:16px;
+}
+.ctrl-btn:hover{background:rgba(255,255,255,0.18)}
+.ctrl-btn.next{background:var(--accent);border-color:var(--accent);width:auto;padding:0 22px;border-radius:24px;font-weight:700;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;height:44px;gap:8px}
+.ctrl-btn.next:hover{background:var(--accent-dark)}
+
+#frame-count{
+  position:fixed;bottom:32px;left:32px;z-index:100;
+  font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;
+  color:rgba(255,255,255,0.4);font-variant-numeric:tabular-nums;
+}
+#kbd-hint{
+  position:fixed;bottom:32px;left:50%;transform:translateX(-50%);z-index:100;
+  font-size:10px;letter-spacing:0.18em;text-transform:uppercase;
+  color:rgba(255,255,255,0.3);display:flex;gap:16px;
+}
+.key{border:1px solid currentColor;padding:2px 7px;border-radius:4px;font-family:monospace;font-size:10px}
+
+/* ===== PULSE BADGE ===== */
+.pulse-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);
+  padding:8px 18px;border-radius:100px;
+  font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
+  color:rgba(255,255,255,0.85);margin-bottom:36px;
+}
+.pulse-badge .dot-live{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+
+/* ============================
+   FRAME 1 — COVER
+============================ */
+#f1{
+  background:linear-gradient(135deg,rgba(0,26,51,0.9) 0%,rgba(0,53,102,0.75) 50%,rgba(0,20,40,0.97) 100%),var(--navy-deep);
+}
+#f1::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 65% 35%,rgba(193,39,45,0.1) 0%,transparent 65%)}
+.cover-center{text-align:center;position:relative;z-index:2}
+.cover-title{font-size:clamp(64px,11vw,180px);color:var(--white);margin-bottom:28px}
+.cover-title .line-1{display:block;font-size:0.42em;opacity:0.45;letter-spacing:0.16em;margin-bottom:14px;font-weight:400}
+.cover-sub{font-size:clamp(15px,1.4vw,19px);color:rgba(255,255,255,0.6);max-width:580px;margin:0 auto;line-height:1.7}
+.cover-locations{margin-top:40px;font-size:10px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.35)}
+.cover-locations span{color:var(--accent)}
+
+/* ============================
+   FRAME 2 — WHAT IS CROSSFIT
+============================ */
+.what-layout{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.what-left{}
+.what-definition{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(28px,3.5vw,52px);
+  line-height:1.08;color:var(--white);
+  margin-bottom:32px;
+}
+.what-definition .accent-line{color:var(--accent)}
+.what-body p{font-size:clamp(15px,1.3vw,17px);line-height:1.75;color:rgba(255,255,255,0.7);margin-bottom:16px}
+.what-right{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:20px;padding:36px;
+}
+.what-pill-title{font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:20px}
+.what-pills{display:flex;flex-direction:column;gap:12px}
+.what-pill{
+  display:flex;align-items:center;gap:16px;
+  padding:14px 18px;border-radius:12px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+}
+.what-pill-icon{font-size:22px;width:36px;text-align:center;flex-shrink:0}
+.what-pill-name{font-size:14px;font-weight:700;color:var(--white);letter-spacing:0.04em}
+.what-pill-desc{font-size:12px;color:rgba(255,255,255,0.45);margin-top:2px}
+
+/* ============================
+   FRAME 3 — WORLD-CLASS FITNESS
+============================ */
+.prescription-wrap{max-width:900px;margin:0 auto;text-align:left}
+.prescription-title{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,6vw,80px);
+  color:var(--white);margin-bottom:36px;letter-spacing:0.02em;
+}
+.prescription-quote{
+  font-size:clamp(15px,1.35vw,19px);
+  line-height:1.8;color:rgba(255,255,255,0.82);
+  border-left:3px solid var(--accent);
+  padding-left:28px;
+  font-style:italic;
+  position:relative;
+}
+.prescription-quote .qmark{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:80px;color:var(--accent);opacity:0.3;
+  position:absolute;top:-20px;left:-8px;line-height:1;
+}
+.prescription-attr{
+  margin-top:28px;margin-left:28px;
+  font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;
+  color:rgba(255,255,255,0.35);
+}
+
+/* ============================
+   FRAME 4 — FOUR MODELS INTRO
+============================ */
+.models-intro{text-align:center;max-width:820px;margin:0 auto}
+.models-eyebrow{
+  display:inline-flex;align-items:center;gap:14px;
+  font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:28px;
+}
+.models-eyebrow::before,.models-eyebrow::after{content:'';display:block;width:40px;height:1px;background:var(--accent)}
+.models-h{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,8vw,120px);
+  line-height:0.9;color:var(--white);margin-bottom:28px;
+}
+.models-sub{font-size:clamp(16px,1.4vw,20px);color:rgba(255,255,255,0.58);line-height:1.65;max-width:640px;margin:0 auto 48px}
+.models-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.model-chip{
+  padding:18px 14px;border-radius:14px;
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
+  text-align:center;transition:all 0.2s;
+}
+.model-chip-num{
+  font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--accent);
+  line-height:1;margin-bottom:8px;
+}
+.model-chip-name{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.75)}
+
+/* ============================
+   FRAME 5 — HOPPER MODEL
+============================ */
+.hopper-layout{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start}
+.hopper-left{}
+.hopper-title{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(44px,6vw,80px);
+  color:var(--white);line-height:0.92;margin-bottom:10px;
+}
+.hopper-tagline{font-size:clamp(14px,1.2vw,16px);color:rgba(255,255,255,0.5);margin-bottom:28px;font-style:italic}
+.hopper-desc{font-size:clamp(14px,1.2vw,16px);color:rgba(255,255,255,0.72);line-height:1.75;margin-bottom:32px}
+.hopper-section-title{
+  font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:14px;
+}
+.hopper-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.hopper-list li{
+  display:flex;align-items:center;gap:12px;
+  font-size:14px;font-weight:600;color:rgba(255,255,255,0.85);
+}
+.hopper-list li::before{content:'▶';color:var(--accent);font-size:8px;flex-shrink:0}
+
+.hopper-right{display:flex;flex-direction:column;gap:20px}
+.hopper-card{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
+  border-radius:16px;padding:24px;
+}
+.hopper-card-title{
+  font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:14px;
+}
+.hopper-tags{display:flex;flex-wrap:wrap;gap:8px}
+.hopper-tag{
+  padding:6px 14px;border-radius:100px;
+  background:rgba(193,39,45,0.15);border:1px solid rgba(193,39,45,0.3);
+  font-size:12px;font-weight:700;color:rgba(255,255,255,0.8);letter-spacing:0.06em;
+}
+.hopper-outcomes{display:flex;flex-direction:column;gap:10px}
+.hopper-outcome{
+  display:flex;align-items:center;gap:12px;
+  font-size:14px;color:rgba(255,255,255,0.78);
+}
+.hopper-outcome-icon{font-size:18px;width:28px;text-align:center;flex-shrink:0}
+
+/* ============================
+   FRAME 6 — TEN SKILLS
+============================ */
+.skills-header{text-align:center;margin-bottom:36px}
+.skills-title{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(44px,6vw,80px);
+  color:var(--white);line-height:0.9;margin-bottom:10px;
+}
+.skills-tagline{font-size:clamp(14px,1.2vw,16px);color:rgba(255,255,255,0.5);font-style:italic}
+.skills-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:28px}
+.skill-card{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
+  border-radius:14px;padding:16px 12px;text-align:center;
+}
+.skill-icon{font-size:24px;margin-bottom:8px}
+.skill-name{
+  font-size:11px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:6px;
+}
+.skill-def{font-size:11px;color:rgba(255,255,255,0.5);line-height:1.5}
+.skills-footer{
+  text-align:center;
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(20px,2.5vw,34px);
+  color:rgba(255,255,255,0.55);
+}
+.skills-footer strong{color:var(--accent)}
+
+/* ============================
+   FRAME 7 — METABOLIC PATHWAYS
+============================ */
+.meta-layout{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start}
+.meta-left{}
+.meta-title{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,5vw,68px);
+  color:var(--white);line-height:0.9;margin-bottom:12px;
+}
+.meta-tagline{font-size:clamp(13px,1.1vw,15px);color:rgba(255,255,255,0.55);line-height:1.6;margin-bottom:32px}
+.meta-table{width:100%;border-collapse:collapse}
+.meta-table th{
+  font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;
+  color:rgba(255,255,255,0.4);padding:0 0 12px;text-align:left;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.meta-table td{
+  padding:12px 0;font-size:13px;color:rgba(255,255,255,0.78);
+  border-bottom:1px solid rgba(255,255,255,0.05);vertical-align:top;
+}
+.meta-table td:first-child{color:rgba(255,255,255,0.45);font-size:11px;font-weight:600;letter-spacing:0.08em}
+.meta-badge{
+  display:inline-block;padding:3px 10px;border-radius:100px;
+  font-size:11px;font-weight:700;letter-spacing:0.06em;
+}
+.meta-badge.phospho{background:rgba(0,180,180,0.2);color:var(--teal);border:1px solid rgba(0,180,180,0.3)}
+.meta-badge.glyco{background:rgba(245,166,35,0.2);color:var(--gold);border:1px solid rgba(245,166,35,0.3)}
+.meta-badge.oxid{background:rgba(52,199,89,0.2);color:var(--green);border:1px solid rgba(52,199,89,0.3)}
+
+.meta-right{display:flex;flex-direction:column;gap:16px}
+.meta-system{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;padding:20px 22px;
+}
+.meta-system-header{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.meta-system-icon{font-size:22px}
+.meta-system-name{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:0.04em}
+.meta-system.phospho{border-left:3px solid var(--teal)}
+.meta-system.phospho .meta-system-name{color:var(--teal)}
+.meta-system.glyco{border-left:3px solid var(--gold)}
+.meta-system.glyco .meta-system-name{color:var(--gold)}
+.meta-system.oxid{border-left:3px solid var(--green)}
+.meta-system.oxid .meta-system-name{color:var(--green)}
+.meta-system-desc{font-size:13px;color:rgba(255,255,255,0.6);line-height:1.6}
+.meta-chart-label{
+  font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
+  color:rgba(255,255,255,0.3);text-align:center;margin-top:4px;
+}
+
+/* Simple bar chart */
+.meta-bars{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.meta-bar-row{display:flex;align-items:center;gap:10px}
+.meta-bar-label{font-size:11px;font-weight:600;color:rgba(255,255,255,0.4);width:80px;flex-shrink:0;letter-spacing:0.06em}
+.meta-bar-track{flex:1;height:8px;background:rgba(255,255,255,0.06);border-radius:100px;overflow:hidden}
+.meta-bar-fill{height:100%;border-radius:100px}
+.meta-bar-time{font-size:11px;color:rgba(255,255,255,0.35);width:60px;text-align:right}
+
+/* ============================
+   FRAME 8 — SICKNESS-WELLNESS-FITNESS
+============================ */
+.swf-layout{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start}
+.swf-left{}
+.swf-title{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,4.5vw,60px);
+  color:var(--white);line-height:0.9;margin-bottom:16px;
+}
+.swf-hook{
+  font-size:clamp(18px,2vw,26px);font-weight:700;
+  color:var(--accent);margin-bottom:16px;
+}
+.swf-body{font-size:clamp(14px,1.2vw,16px);color:rgba(255,255,255,0.68);line-height:1.8;margin-bottom:28px}
+
+.swf-dial{
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);
+  border-radius:20px;padding:28px 24px;margin-bottom:20px;
+}
+.swf-dial-labels{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.swf-dial-label{
+  font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:0.04em;
+}
+.swf-dial-label.sick{color:var(--accent)}
+.swf-dial-label.well{color:rgba(255,255,255,0.4)}
+.swf-dial-label.fit{color:var(--green)}
+.swf-spectrum{
+  height:12px;border-radius:100px;
+  background:linear-gradient(90deg,var(--accent) 0%,rgba(255,255,255,0.2) 50%,var(--green) 100%);
+  position:relative;margin-bottom:12px;
+}
+.swf-pointer{
+  position:absolute;top:-6px;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--white);border:3px solid var(--navy-dark);
+  left:38%;transform:translateX(-50%);
+  box-shadow:0 0 0 4px rgba(255,255,255,0.15);
+}
+.swf-spectrum-labels{display:flex;justify-content:space-between;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3)}
+
+.swf-right{display:flex;flex-direction:column;gap:16px}
+.swf-card{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  border-radius:14px;padding:18px 20px;
+}
+.swf-card-title{
+  font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:10px;
+}
+.swf-markers{display:flex;flex-wrap:wrap;gap:8px}
+.swf-marker{
+  padding:5px 12px;border-radius:100px;
+  font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+}
+.swf-cta{
+  background:linear-gradient(135deg,rgba(193,39,45,0.15) 0%,rgba(193,39,45,0.06) 100%);
+  border:1px solid rgba(193,39,45,0.25);border-radius:14px;padding:20px 22px;
+}
+.swf-cta-text{font-size:clamp(14px,1.2vw,16px);color:rgba(255,255,255,0.8);line-height:1.65}
+.swf-cta-text strong{color:var(--accent)}
+
+/* ============================
+   FRAME 9 — PYRAMID
+============================ */
+.pyramid-layout{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center}
+.pyramid-left{}
+.pyramid-title{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,5.5vw,72px);
+  color:var(--white);line-height:0.9;margin-bottom:14px;
+}
+.pyramid-hook{font-size:clamp(14px,1.2vw,16px);color:rgba(255,255,255,0.6);line-height:1.75;margin-bottom:28px}
+.pyramid-body{font-size:clamp(13px,1.1vw,15px);color:rgba(255,255,255,0.58);line-height:1.8;margin-bottom:28px}
+.pyramid-tagline{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(20px,2.2vw,28px);
+  color:rgba(255,255,255,0.35);
+}
+.pyramid-tagline .accent{color:var(--accent)}
+
+.pyramid-right{}
+.pyramid-vis{display:flex;flex-direction:column;align-items:center;gap:6px}
+.pyr-tier{
+  display:flex;align-items:center;justify-content:center;
+  border-radius:8px;font-weight:800;
+  font-size:clamp(13px,1.2vw,16px);letter-spacing:0.08em;text-transform:uppercase;
+  text-align:center;transition:all 0.2s;padding:12px 20px;
+}
+.pyr-t5{width:25%;background:rgba(193,39,45,0.8);color:var(--white);border:1px solid rgba(255,255,255,0.2)}
+.pyr-t4{width:42%;background:rgba(0,53,102,0.9);color:var(--white);border:1px solid rgba(255,255,255,0.15)}
+.pyr-t3{width:58%;background:rgba(0,35,71,0.9);color:var(--white);border:1px solid rgba(255,255,255,0.12)}
+.pyr-t2{width:75%;background:rgba(0,25,55,0.9);color:rgba(255,255,255,0.85);border:1px solid rgba(255,255,255,0.1)}
+.pyr-t1{width:100%;background:rgba(0,15,35,0.9);color:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.08);font-size:clamp(15px,1.4vw,18px)}
+.pyr-tier-label{margin-top:2px;font-size:10px;letter-spacing:0.14em;color:rgba(255,255,255,0.35);text-align:center;font-weight:600}
+.pyramid-vis-wrap{display:flex;flex-direction:column;align-items:center;gap:2px;padding:20px}
+
+/* ============================
+   FRAME 10 — CLOSING CTA
+============================ */
+#f10{
+  background:linear-gradient(135deg,rgba(0,20,40,0.97) 0%,rgba(0,53,102,0.7) 100%);
+}
+#f10::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 40%,rgba(193,39,45,0.12) 0%,transparent 60%)}
+.close-wrap{text-align:center;position:relative;z-index:2;max-width:720px;margin:0 auto}
+.close-title{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,8vw,110px);
+  line-height:0.9;color:var(--white);margin-bottom:24px;
+}
+.close-title span{color:var(--accent)}
+.close-sub{font-size:clamp(16px,1.4vw,19px);color:rgba(255,255,255,0.62);line-height:1.7;max-width:560px;margin:0 auto 40px}
+.close-buttons{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:32px}
+.btn-big{
+  padding:18px 40px;border-radius:8px;border:none;
+  font-size:14px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.25s;text-decoration:none;display:inline-flex;align-items:center;
+}
+.btn-red{background:var(--accent);color:var(--white)}
+.btn-red:hover{background:var(--accent-dark);transform:translateY(-2px);box-shadow:0 12px 32px rgba(193,39,45,0.4)}
+.btn-ghost{background:transparent;color:var(--white);border:2px solid rgba(255,255,255,0.5)}
+.btn-ghost:hover{background:var(--white);color:var(--navy-dark);border-color:var(--white)}
+.close-contact{font-size:12px;color:rgba(255,255,255,0.35);letter-spacing:0.08em}
+.close-contact a{color:rgba(255,255,255,0.6);text-decoration:underline}
+
+/* ============================
+   RESPONSIVE
+============================ */
+@media(max-width:900px){
+  .frame{padding:100px 24px 80px}
+  .what-layout,.hopper-layout,.meta-layout,.swf-layout,.pyramid-layout{grid-template-columns:1fr;gap:32px}
+  .models-grid{grid-template-columns:repeat(2,1fr)}
+  .skills-grid{grid-template-columns:repeat(3,1fr)}
+  #kbd-hint{display:none}
+  #brand-mark{left:20px;top:20px}
+  #controls{bottom:20px;right:20px}
+  #frame-count{bottom:24px;left:20px}
+}
+@media(max-width:1100px){
+  .frame{padding:80px 40px 70px}
+}
+@media(pointer:coarse){#kbd-hint{display:none}}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:opacity 0.2s !important}
+  .frame{transition:opacity 0.2s}
+  .frame-inner{transition:opacity 0.2s}
+}
+</style>
+</head>
+<body>
+
+<!-- CHROME -->
+<div id="progress-bar"></div>
+<div id="brand-mark">CROSSFIT <span>OTL</span></div>
+<nav id="chapter-nav"></nav>
+<button id="menu-btn" aria-label="Index"><div class="menu-icon"><span></span></div></button>
+<div id="frame-count"><span id="fc-cur">01</span> / <span id="fc-total">10</span></div>
+
+<!-- INDEX OVERLAY -->
+<div id="index-overlay">
+  <div class="index-wrap">
+    <div class="index-title">Index</div>
+    <div class="index-sub">Jump to any section · press M or Esc to close</div>
+    <div id="index-body"></div>
+  </div>
+</div>
+<div id="kbd-hint">
+  <span><span class="key">←</span> BACK</span>
+  <span><span class="key">→</span> NEXT</span>
+  <span><span class="key">M</span> INDEX</span>
+  <span><span class="key">ESC</span> HOME</span>
+</div>
+<div id="controls">
+  <div class="ctrl-btn" id="btn-prev" title="Back">←</div>
+  <div class="ctrl-btn next" id="btn-next">Continue →</div>
+</div>
+
+<!-- STAGE -->
+<div id="stage">
+
+<!-- ===== FRAME 1 — COVER ===== -->
+<section class="frame bg-navy" id="f1" data-chapter="intro" data-title="The Blueprint">
+  <div class="frame-inner">
+    <div class="cover-center">
+      <div class="pulse-badge"><span class="dot-live"></span>CrossFit OTL · On The Line Fitness</div>
+      <h1 class="cover-title bebas">
+        <span class="line-1">The Blueprint for</span>
+        FITNESS
+      </h1>
+      <p class="cover-sub">What CrossFit is, how it works, and why it produces results that other programs can't match.</p>
+      <div class="cover-locations">North Richland Hills · Hurst · Colleyville · <span>crossfit-otl.com</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FRAME 2 — WHAT IS CROSSFIT ===== -->
+<section class="frame bg-navy" data-chapter="intro" data-title="What is CrossFit?">
+  <div class="frame-inner">
+    <div class="label">The Foundation</div>
+    <div class="what-layout">
+      <div class="what-left">
+        <div class="what-definition">
+          CrossFit is <span class="accent-line">constantly varied</span> functional movement performed at <span class="accent-line">high intensity.</span>
+        </div>
+        <div class="what-body">
+          <p>It uses natural, full-body movements done with purpose. Intensity is scaled to every individual, making it safe, effective, and universally applicable.</p>
+          <p>The result: real-world fitness that prepares you for anything life throws your way.</p>
+        </div>
+      </div>
+      <div class="what-right">
+        <div class="what-pill-title">Three Defining Principles</div>
+        <div class="what-pills">
+          <div class="what-pill">
+            <div class="what-pill-icon">🎲</div>
+            <div>
+              <div class="what-pill-name">Constantly Varied</div>
+              <div class="what-pill-desc">No two workouts are the same. Routine is the enemy.</div>
+            </div>
+          </div>
+          <div class="what-pill">
+            <div class="what-pill-icon">⚙️</div>
+            <div>
+              <div class="what-pill-name">Functional Movement</div>
+              <div class="what-pill-desc">Natural, compound movements your body was built to do.</div>
+            </div>
+          </div>
+          <div class="what-pill">
+            <div class="what-pill-icon">⚡</div>
+            <div>
+              <div class="what-pill-name">High Intensity</div>
+              <div class="what-pill-desc">Scaled to you. Power output drives results.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FRAME 3 — WORLD-CLASS FITNESS ===== -->
+<section class="frame bg-black" data-chapter="intro" data-title="World-Class Fitness">
+  <div class="frame-inner">
+    <div class="prescription-wrap">
+      <div class="label">The CrossFit Prescription</div>
+      <div class="prescription-title">WORLD-CLASS FITNESS</div>
+      <div class="prescription-quote">
+        <span class="qmark">"</span>
+        Eat meat and vegetables, nuts and seeds, some fruit, little starch, and no sugar. Keep intake to levels that will support exercise but not body fat. Practice and train major lifts: Deadlift, clean, squat, presses, C&J, and snatch. Similarly, master the basics of gymnastics: pull-ups, dips, rope climbs, push-ups, sit-ups, presses to handstands, pirouettes, flips, splits, and holds. Bike, run, swim, row, etc. hard and fast. Five or six days per week mix these elements in as many combinations and patterns as creativity will allow. Routine is the enemy. Keep workouts short and intense. Regularly learn and play new sports.
+      </div>
+      <div class="prescription-attr">— Greg Glassman, CrossFit Founder</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FRAME 4 — THE FOUR MODELS INTRO ===== -->
+<section class="frame bg-navy" data-chapter="models" data-title="Four Models of Fitness">
+  <div class="frame-inner">
+    <div class="models-intro">
+      <div class="models-eyebrow">The CrossFit Framework</div>
+      <h2 class="models-h">THE FOUR<br>MODELS OF<br><span class="accent">FITNESS</span></h2>
+      <p class="models-sub">CrossFit's approach is grounded in four conceptual models that together define what fitness is, how to train for it, and how to measure it.</p>
+      <div class="models-grid">
+        <div class="model-chip">
+          <div class="model-chip-num">01</div>
+          <div class="model-chip-name">The Hopper Model</div>
+        </div>
+        <div class="model-chip">
+          <div class="model-chip-num">02</div>
+          <div class="model-chip-name">Ten Physical Skills</div>
+        </div>
+        <div class="model-chip">
+          <div class="model-chip-num">03</div>
+          <div class="model-chip-name">Metabolic Pathways</div>
+        </div>
+        <div class="model-chip">
+          <div class="model-chip-num">04</div>
+          <div class="model-chip-name">Sickness → Fitness</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FRAME 5 — HOPPER MODEL ===== -->
+<section class="frame bg-navy" data-chapter="models" data-title="The Hopper Model">
+  <div class="frame-inner">
+    <div class="label">Model 01</div>
+    <div class="hopper-layout">
+      <div class="hopper-left">
+        <div class="hopper-title">THE HOPPER MODEL</div>
+        <div class="hopper-tagline">Unlock Your Full Fitness Potential</div>
+        <div class="hopper-desc">The Hopper Model emphasizes broad and inclusive fitness — being prepared for any physical challenge. It's about developing proficiency across multiple domains, rather than specializing in just one.</div>
+
+        <div class="hopper-section-title">What Goes in the Hopper</div>
+        <ul class="hopper-list">
+          <li>Weightlifting</li>
+          <li>Gymnastics</li>
+          <li>Cardio (bike, run, row, swim)</li>
+          <li>Time Domains</li>
+          <li>Skill Variations</li>
+          <li>Loads &amp; Rep Schemes</li>
+        </ul>
+      </div>
+      <div class="hopper-right">
+        <div class="hopper-card">
+          <div class="hopper-card-title">Examples from the Hopper</div>
+          <div class="hopper-tags">
+            <div class="hopper-tag">5K Run</div>
+            <div class="hopper-tag">Pull-Ups</div>
+            <div class="hopper-tag">Deadlift 5RM</div>
+            <div class="hopper-tag">Row 2K</div>
+            <div class="hopper-tag">Snatch</div>
+            <div class="hopper-tag">Burpees</div>
+          </div>
+        </div>
+        <div class="hopper-card">
+          <div class="hopper-card-title">What Comes Out of Training</div>
+          <div class="hopper-outcomes">
+            <div class="hopper-outcome">
+              <div class="hopper-outcome-icon">💪</div>
+              <div>Physical Capacities (10 General Skills)</div>
+            </div>
+            <div class="hopper-outcome">
+              <div class="hopper-outcome-icon">🌱</div>
+              <div>Lifestyle Outcomes</div>
+            </div>
+            <div class="hopper-outcome">
+              <div class="hopper-outcome-icon">🤝</div>
+              <div>Community &amp; Culture</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FRAME 6 — TEN GENERAL PHYSICAL SKILLS ===== -->
+<section class="frame bg-navy" data-chapter="models" data-title="Ten Physical Skills">
+  <div class="frame-inner">
+    <div class="label">Model 02</div>
+    <div class="skills-header">
+      <div class="skills-title">TEN GENERAL PHYSICAL <span class="accent">SKILLS</span></div>
+      <div class="skills-tagline">The Foundation of Functional Fitness · If you're good at all 10, you're fit.</div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">🫁</div>
+        <div class="skill-name">Cardiovascular Endurance</div>
+        <div class="skill-def">The ability of body systems to gather, process, and deliver oxygen.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🔋</div>
+        <div class="skill-name">Stamina</div>
+        <div class="skill-def">The ability to process, deliver, store, and utilize energy.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">💪</div>
+        <div class="skill-name">Strength</div>
+        <div class="skill-def">The ability of a muscular unit to apply force.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🤸</div>
+        <div class="skill-name">Flexibility</div>
+        <div class="skill-def">The ability to maximize range of motion at a given joint.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">⚡</div>
+        <div class="skill-name">Power</div>
+        <div class="skill-def">The ability to apply maximum force in minimum time.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🏃</div>
+        <div class="skill-name">Speed</div>
+        <div class="skill-def">The ability to minimize the time cycle of a repeated movement.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🧠</div>
+        <div class="skill-name">Coordination</div>
+        <div class="skill-def">Combining distinct movement patterns into one singular movement.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🐆</div>
+        <div class="skill-name">Agility</div>
+        <div class="skill-def">Minimizing transition time from one movement pattern to another.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">⚖️</div>
+        <div class="skill-name">Balance</div>
+        <div class="skill-def">Controlling the body's center of gravity relative to support base.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🎯</div>
+        <div class="skill-name">Accuracy</div>
+        <div class="skill-def">Controlling movement in a given direction or at a given intensity.</div>
+      </div>
+    </div>
+    <div class="skills-footer">Training here at CrossFit OTL develops <strong>all of them,</strong> not just one.</div>
+  </div>
+</section>
+
+<!-- ===== FRAME 7 — METABOLIC PATHWAYS ===== -->
+<section class="frame bg-navy" data-chapter="models" data-title="Metabolic Pathways">
+  <div class="frame-inner">
+    <div class="label">Model 03</div>
+    <div class="meta-layout">
+      <div class="meta-left">
+        <div class="meta-title">THE METABOLIC PATHWAYS MODEL</div>
+        <div class="meta-tagline">We train all three energy systems to build total capacity — strength, speed, and stamina together.</div>
+
+        <table class="meta-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th><span class="meta-badge phospho">Phosphocreatine</span></th>
+              <th><span class="meta-badge glyco">Glycolytic</span></th>
+              <th><span class="meta-badge oxid">Oxidative</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Time Domain</td>
+              <td>Short ~10sec</td>
+              <td>Medium ~120sec</td>
+              <td>Long &gt;120sec</td>
+            </tr>
+            <tr>
+              <td>System</td>
+              <td>Anaerobic</td>
+              <td>Anaerobic</td>
+              <td>Aerobic</td>
+            </tr>
+            <tr>
+              <td>Power Output</td>
+              <td>~100%</td>
+              <td>~70%</td>
+              <td>~40%</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top:24px">
+          <div class="meta-bars">
+            <div class="meta-bar-row">
+              <div class="meta-bar-label" style="color:var(--teal)">Phosphagen</div>
+              <div class="meta-bar-track"><div class="meta-bar-fill" style="width:100%;background:var(--teal)"></div></div>
+              <div class="meta-bar-time">0–10s</div>
+            </div>
+            <div class="meta-bar-row">
+              <div class="meta-bar-label" style="color:var(--gold)">Glycolytic</div>
+              <div class="meta-bar-track"><div class="meta-bar-fill" style="width:70%;background:var(--gold)"></div></div>
+              <div class="meta-bar-time">0–120s</div>
+            </div>
+            <div class="meta-bar-row">
+              <div class="meta-bar-label" style="color:var(--green)">Oxidative</div>
+              <div class="meta-bar-track"><div class="meta-bar-fill" style="width:40%;background:var(--green)"></div></div>
+              <div class="meta-bar-time">&gt;120s</div>
+            </div>
+          </div>
+          <div class="meta-chart-label" style="margin-top:10px">Relative power output by system</div>
+        </div>
+      </div>
+
+      <div class="meta-right">
+        <div class="meta-system phospho">
+          <div class="meta-system-header">
+            <div class="meta-system-icon">⚡</div>
+            <div class="meta-system-name">Phosphagen</div>
+          </div>
+          <div class="meta-system-desc">Maximum power output for very short bursts. Think: a 1-rep max lift or a 10-second all-out sprint. Burns phosphocreatine stored in muscle.</div>
+        </div>
+        <div class="meta-system glyco">
+          <div class="meta-system-header">
+            <div class="meta-system-icon">🔥</div>
+            <div class="meta-system-name">Glycolytic</div>
+          </div>
+          <div class="meta-system-desc">Medium-duration, high-intensity work. Think: a 400m run or a fast MetCon. Burns glycogen — the "burn" you feel is this system at work.</div>
+        </div>
+        <div class="meta-system oxid">
+          <div class="meta-system-header">
+            <div class="meta-system-icon">🌿</div>
+            <div class="meta-system-name">Oxidative</div>
+          </div>
+          <div class="meta-system-desc">Long, sustained aerobic effort. Think: a 5K run or a 20-minute row. Burns fat and carbohydrates with oxygen. Foundation of endurance.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FRAME 8 — SICKNESS-WELLNESS-FITNESS ===== -->
+<section class="frame bg-navy" data-chapter="models" data-title="Sickness → Fitness Continuum">
+  <div class="frame-inner">
+    <div class="label">Model 04</div>
+    <div class="swf-layout">
+      <div class="swf-left">
+        <div class="swf-title">THE SICKNESS–WELLNESS–FITNESS CONTINUUM</div>
+        <div class="swf-hook">Your health is not fixed.</div>
+        <div class="swf-body">It moves on a spectrum — from sickness, to wellness, to fitness. Every workout at CrossFit OTL pushes you further toward fitness, building a buffer against disease and protecting your future.</div>
+
+        <div class="swf-dial">
+          <div class="swf-dial-labels">
+            <span class="swf-dial-label sick">SICKNESS</span>
+            <span class="swf-dial-label well">WELLNESS</span>
+            <span class="swf-dial-label fit">FITNESS</span>
+          </div>
+          <div class="swf-spectrum">
+            <div class="swf-pointer"></div>
+          </div>
+          <div class="swf-spectrum-labels">
+            <span>Disease</span>
+            <span>Average</span>
+            <span>Optimal</span>
+          </div>
+        </div>
+      </div>
+      <div class="swf-right">
+        <div class="swf-card">
+          <div class="swf-card-title">Measured By</div>
+          <div class="swf-markers">
+            <div class="swf-marker">Blood Pressure</div>
+            <div class="swf-marker">Body Fat %</div>
+            <div class="swf-marker">Bone Density</div>
+            <div class="swf-marker">HDL Cholesterol</div>
+            <div class="swf-marker">Glycated Hemoglobin (HbA1c)</div>
+            <div class="swf-marker">Muscle Mass</div>
+          </div>
+        </div>
+        <div class="swf-cta">
+          <div class="swf-cta-text">Fitness is not the absence of sickness. It is a <strong>buffer zone</strong> — a margin of health that makes you harder to kill and harder to break. CrossFit OTL trains that buffer, every single day.</div>
+        </div>
+        <div class="swf-card">
+          <div class="swf-card-title">How InBody Tracks Your Progress</div>
+          <div class="swf-markers">
+            <div class="swf-marker">Fat Mass</div>
+            <div class="swf-marker">Muscle Mass</div>
+            <div class="swf-marker">Body Fat %</div>
+            <div class="swf-marker">Visceral Fat</div>
+            <div class="swf-marker">BMR</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FRAME 9 — PYRAMID OF ATHLETE DEVELOPMENT ===== -->
+<section class="frame bg-navy" data-chapter="development" data-title="Pyramid of Development">
+  <div class="frame-inner">
+    <div class="label">The Foundation</div>
+    <div class="pyramid-layout">
+      <div class="pyramid-left">
+        <div class="pyramid-title">THE PYRAMID OF ATHLETE DEVELOPMENT</div>
+        <div class="pyramid-hook">A strong foundation is key. This pyramid shows the logical flow of an athlete's development — from foundational nutrition to advanced athletic expression.</div>
+        <div class="pyramid-body">Fitness is built from the ground up. At the base is nutrition, the foundation of health. On top of that sits metabolic conditioning, gymnastics, and weightlifting &amp; throwing. At the peak is sport — the ultimate expression of fitness.<br><br><em>Master the base, and the top will take care of itself.</em></div>
+        <div class="pyramid-tagline">BUILD THE <span class="accent">BASE.</span><br>THE REST FOLLOWS.</div>
+      </div>
+      <div class="pyramid-right">
+        <div class="pyramid-vis-wrap">
+          <div class="pyramid-vis">
+            <div class="pyr-tier pyr-t5">🏆 Sport</div>
+            <div class="pyr-tier pyr-t4">🏋️ Weightlifting &amp; Throwing</div>
+            <div class="pyr-tier pyr-t3">🤸 Gymnastics</div>
+            <div class="pyr-tier pyr-t2">🔄 Metabolic Conditioning</div>
+            <div class="pyr-tier pyr-t1">🥩 Nutrition — The Foundation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FRAME 10 — CLOSING CTA ===== -->
+<section class="frame bg-navy" id="f10" data-chapter="close" data-title="Start Your Journey">
+  <div class="frame-inner">
+    <div class="close-wrap">
+      <div class="pulse-badge"><span class="dot-live"></span>Ready When You Are</div>
+      <h2 class="close-title bebas">READY TO<br>GET <span>ON THE LINE?</span></h2>
+      <p class="close-sub">Start with a free consult and InBody scan at CrossFit OTL. 45 minutes. No pressure. You leave knowing exactly where you stand and what it takes to get where you want to go.</p>
+      <div class="close-buttons">
+        <a href="mailto:javier@onthelinefitness.com?subject=I%27m%20Ready%20to%20Start%20at%20CrossFit%20OTL" class="btn-big btn-red">Book Free Consult</a>
+        <a href="https://crossfit-otl.com" class="btn-big btn-ghost" target="_blank">crossfit-otl.com</a>
+      </div>
+      <p class="close-contact">
+        <a href="mailto:javier@onthelinefitness.com">javier@onthelinefitness.com</a>
+        &nbsp;·&nbsp; North Richland Hills · Hurst · Colleyville
+      </p>
+      <p class="close-contact" style="margin-top:10px;font-size:10px;letter-spacing:0.2em">CROSSFIT OTL · ON THE LINE FITNESS · FIT4 ASSOCIATES INC.</p>
+    </div>
+  </div>
+</section>
+
+</div><!-- /stage -->
+
+<script>
+(function(){
+  const frames = document.querySelectorAll('.frame');
+  const total = frames.length;
+  let current = 0;
+  let visited = new Set([0]);
+
+  const chapterLabels = {
+    'intro':       'Intro',
+    'models':      'Models',
+    'development': 'Development',
+    'close':       'Start'
+  };
+
+  const chapterOrder = [];
+  const chapterMap = {};
+  frames.forEach((f, i) => {
+    const ch = f.dataset.chapter || 'misc';
+    if (!chapterMap[ch]) { chapterMap[ch] = []; chapterOrder.push(ch); }
+    chapterMap[ch].push(i);
+  });
+
+  // Build chapter nav
+  const chapterNav = document.getElementById('chapter-nav');
+  chapterOrder.forEach(ch => {
+    const btn = document.createElement('div');
+    btn.className = 'ch-btn';
+    btn.dataset.chapter = ch;
+    const label = document.createElement('span');
+    label.textContent = chapterLabels[ch] || ch;
+    const dotsWrap = document.createElement('div');
+    dotsWrap.className = 'ch-btn-dots';
+    chapterMap[ch].forEach(i => {
+      const d = document.createElement('span');
+      d.className = 'ch-btn-dot';
+      d.dataset.index = i;
+      dotsWrap.appendChild(d);
+    });
+    btn.appendChild(label);
+    btn.appendChild(dotsWrap);
+    btn.addEventListener('click', e => { e.stopPropagation(); goTo(chapterMap[ch][0]); });
+    chapterNav.appendChild(btn);
+  });
+
+  // Build index overlay
+  const indexBody = document.getElementById('index-body');
+  chapterOrder.forEach(ch => {
+    const chDiv = document.createElement('div');
+    chDiv.className = 'index-chapter';
+    const chTitle = document.createElement('div');
+    chTitle.className = 'index-ch-title';
+    chTitle.textContent = chapterLabels[ch] || ch;
+    chDiv.appendChild(chTitle);
+    const items = document.createElement('div');
+    items.className = 'index-items';
+    chapterMap[ch].forEach(i => {
+      const item = document.createElement('div');
+      item.className = 'index-item';
+      item.dataset.index = i;
+      const num = document.createElement('div');
+      num.className = 'index-item-num';
+      num.textContent = String(i + 1).padStart(2, '0');
+      const title = document.createElement('div');
+      title.className = 'index-item-title';
+      title.textContent = frames[i].dataset.title || '';
+      item.appendChild(num);
+      item.appendChild(title);
+      item.addEventListener('click', e => { e.stopPropagation(); goTo(i); closeMenu(); });
+      items.appendChild(item);
+    });
+    chDiv.appendChild(items);
+    indexBody.appendChild(chDiv);
+  });
+
+  function goTo(n) {
+    if (n < 0 || n >= total) return;
+    frames[current].classList.remove('active');
+    current = n;
+    visited.add(current);
+    frames[current].classList.add('active');
+    updateChrome();
+  }
+
+  function updateChrome() {
+    // Progress bar
+    document.getElementById('progress-bar').style.width = ((current + 1) / total * 100) + '%';
+    // Frame count
+    document.getElementById('fc-cur').textContent = String(current + 1).padStart(2, '0');
+    document.getElementById('fc-total').textContent = String(total).padStart(2, '0');
+
+    // Light chrome for light-bg frames
+    const f = frames[current];
+    document.body.classList.toggle('light-chrome', !!f.dataset.light);
+
+    // Chapter nav active
+    const curChapter = f.dataset.chapter;
+    document.querySelectorAll('.ch-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.chapter === curChapter);
+    });
+
+    // Dots
+    document.querySelectorAll('.ch-btn-dot').forEach(d => {
+      const idx = parseInt(d.dataset.index);
+      d.classList.toggle('visited', visited.has(idx));
+      d.classList.toggle('current', idx === current);
+    });
+
+    // Index items
+    document.querySelectorAll('.index-item').forEach(item => {
+      item.classList.toggle('current', parseInt(item.dataset.index) === current);
+    });
+
+    // Next button text
+    const nextBtn = document.getElementById('btn-next');
+    if (current === total - 1) {
+      nextBtn.textContent = 'Book Consult →';
+    } else if (current === 0) {
+      nextBtn.textContent = 'Begin →';
+    } else {
+      nextBtn.textContent = 'Continue →';
+    }
+  }
+
+  function closeMenu() {
+    document.body.classList.remove('menu-open');
+  }
+
+  // Controls
+  document.getElementById('btn-next').addEventListener('click', e => {
+    e.stopPropagation();
+    if (current === total - 1) {
+      window.location.href = 'mailto:javier@onthelinefitness.com?subject=I%27m%20Ready%20to%20Start%20at%20CrossFit%20OTL';
+    } else {
+      goTo(current + 1);
+    }
+  });
+  document.getElementById('btn-prev').addEventListener('click', e => { e.stopPropagation(); goTo(current - 1); });
+
+  // Stage click = advance
+  document.getElementById('stage').addEventListener('click', () => { if (current < total - 1) goTo(current + 1); });
+
+  // Menu
+  document.getElementById('menu-btn').addEventListener('click', e => {
+    e.stopPropagation();
+    document.body.classList.toggle('menu-open');
+  });
+  document.getElementById('index-overlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('index-overlay')) closeMenu();
+  });
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1); }
+    if (e.key === 'm' || e.key === 'M') document.body.classList.toggle('menu-open');
+    if (e.key === 'Escape') {
+      if (document.body.classList.contains('menu-open')) { closeMenu(); }
+      else { goTo(0); }
+    }
+  });
+
+  // Touch swipe
+  let touchX = 0;
+  document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) { dx < 0 ? goTo(current + 1) : goTo(current - 1); }
+  }, {passive:true});
+
+  // Init
+  frames[0].classList.add('active');
+  updateChrome();
+})();
+</script>
+</body>
+</html>
