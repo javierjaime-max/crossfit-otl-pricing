@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>CrossFit OTL · Pricing Consultation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,6 +40,8 @@ a{text-decoration:none;color:inherit}
   position:fixed;
   inset:0;
   overflow:hidden;
+  padding-top:env(safe-area-inset-top);
+  padding-bottom:env(safe-area-inset-bottom);
 }
 .frame{
   position:absolute;
@@ -878,9 +880,9 @@ body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
   color:var(--navy-dark);margin-bottom:16px;
   padding-bottom:12px;border-bottom:1px solid var(--grey-border);
 }
-.ala-row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;font-size:13px}
-.ala-row-label{color:var(--grey)}
-.ala-row-price{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--navy-dark)}
+.ala-row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;font-size:16px}
+.ala-row-label{color:#333}
+.ala-row-price{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--navy-dark)}
 
 /* ============================
    FRAME 20 — FINAL CTA
@@ -1620,7 +1622,7 @@ body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
         <div class="ala-card">
           <div class="ala-card-title">Ongoing Nutrition</div>
           <div class="ala-row"><div class="ala-row-label">Habit-Based Support</div><div class="ala-row-price">$145</div></div>
-          <div style="font-size:11px;color:var(--grey);margin-top:10px;line-height:1.6">
+          <div style="font-size:13px;color:#444;margin-top:10px;line-height:1.6">
             Post-Reset retention program. No onboarding consultation — you're past that. Includes:<br>
             · 1 coach check-in every 4 weeks<br>
             · InBody scan every 4 weeks<br>
@@ -1631,7 +1633,7 @@ body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
         <div class="ala-card">
           <div class="ala-card-title">Youth Program</div>
           <div class="ala-row"><div class="ala-row-label">See dedicated section</div><div class="ala-row-price" style="font-size:13px;font-family:Inter;font-weight:600;color:var(--accent)">Ages 5–18</div></div>
-          <div style="font-size:11px;color:var(--grey);margin-top:6px;font-style:italic">Kids $95 · Teens $115–$140 per 4 weeks.</div>
+          <div style="font-size:13px;color:#444;margin-top:6px;font-style:italic">Kids $95 · Teens $115–$140 per 4 weeks.</div>
         </div>
       </div>
     </div>
