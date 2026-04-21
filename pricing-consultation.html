@@ -39,9 +39,8 @@ a{text-decoration:none;color:inherit}
 #stage{
   position:fixed;
   inset:0;
+  height:100dvh;
   overflow:hidden;
-  padding-top:env(safe-area-inset-top);
-  padding-bottom:env(safe-area-inset-bottom);
 }
 .frame{
   position:absolute;
@@ -870,7 +869,7 @@ body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
 ============================ */
 .ala-wrap{max-width:1100px;margin:0 auto}
 .ala-header{text-align:center;margin-bottom:20px}
-.ala-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.ala-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
 .ala-card{
   background:var(--white);
   border:1px solid var(--grey-border);
@@ -878,13 +877,13 @@ body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
 }
 .ala-card-title{
   font-family:'Bebas Neue',sans-serif;
-  font-size:16px;letter-spacing:0.04em;
+  font-size:20px;letter-spacing:0.04em;
   color:var(--navy-dark);margin-bottom:10px;
   padding-bottom:8px;border-bottom:1px solid var(--grey-border);
 }
-.ala-row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;font-size:16px}
-.ala-row-label{color:#333}
-.ala-row-price{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--navy-dark)}
+.ala-row{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;font-size:15px}
+.ala-row-label{color:#222;font-weight:500}
+.ala-row-price{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--navy-dark)}
 
 /* ============================
    FRAME 20 — FINAL CTA
@@ -1603,10 +1602,8 @@ body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
   <div class="frame-inner">
     <div class="ala-wrap">
       <div class="ala-header">
-        <div class="label">Alternative</div>
-        <h2 class="svc-product" style="color:var(--navy-dark);margin-bottom:10px">À LA CARTE PRICING</h2>
-        <div class="svc-tagline">If the Bundle Isn't for You.</div>
-        <p class="small" style="color:var(--grey);margin-top:14px">Standalone pricing for each piece, billed every 4 weeks unless noted.</p>
+        <h2 class="svc-product" style="color:var(--navy-dark);font-size:clamp(28px,3.5vw,44px);margin-bottom:4px">À LA CARTE PRICING</h2>
+        <div class="svc-tagline" style="font-size:clamp(13px,1.4vw,16px);margin-bottom:0;color:var(--grey)">If the bundle isn't for you · Standalone pricing, billed every 4 weeks</div>
       </div>
       <div class="ala-grid">
         <div class="ala-card">
@@ -1630,18 +1627,12 @@ body.light-chrome #kbd-hint{color:rgba(0,35,71,0.35)}
         <div class="ala-card">
           <div class="ala-card-title">Ongoing Nutrition</div>
           <div class="ala-row"><div class="ala-row-label">Habit-Based Support</div><div class="ala-row-price">$145</div></div>
-          <div style="font-size:13px;color:#444;margin-top:10px;line-height:1.6">
-            Post-Reset retention program. No onboarding consultation — you're past that. Includes:<br>
-            · 1 coach check-in every 4 weeks<br>
-            · InBody scan every 4 weeks<br>
-            · Continued access to the On The Line Fitness app<br>
-            · Meal plans, food logging, habit &amp; step tracking
-          </div>
+          <div style="font-size:13px;color:#444;margin-top:8px;line-height:1.5">Coach check-in · InBody scan · App access · Meal plans</div>
         </div>
         <div class="ala-card">
           <div class="ala-card-title">Youth Program</div>
           <div class="ala-row"><div class="ala-row-label">See dedicated section</div><div class="ala-row-price" style="font-size:13px;font-family:Inter;font-weight:600;color:var(--accent)">Ages 5–18</div></div>
-          <div style="font-size:13px;color:#444;margin-top:6px;font-style:italic">Kids $95 · Teens $115–$140 per 4 weeks.</div>
+          <div style="font-size:13px;color:#444;margin-top:8px">Kids $95 · Teens $115–$140 / 4 weeks</div>
         </div>
       </div>
     </div>
